@@ -1,0 +1,57 @@
+<template>
+    <span
+        class="pk-avatar"
+        :style="{
+            'background-color': backgroundColor,
+            'background-image': `url(${src})`,
+            'font-size': fontSize,
+            width: actualSize,
+            height: actualSize,
+            'line-height': actualSize
+        }">
+        {{src ? '' : text}}
+    </span>
+</template>
+
+<script>
+export default {
+    name: 'PkAvatar',
+    props: {
+        content: { // 头像没传图片src就显示文本头像，该值为文本
+            type: String,
+            default: ''
+        },
+        fontSize: { // 文本大小
+            type: String,
+            default: '12px'
+        },
+        backgroundColor: { // 头像背景颜色
+            type: String,
+            default: '#709ff7'
+        },
+        size: { // 头像大小
+            type: [String, Number],
+            default: '15px'
+        },
+        src: { // 头像图片地址
+            type: String,
+            default: ''
+        },
+        substr: { // 截断content前几个字符
+            type: Number,
+            default: 2
+        }
+    },
+    computed: {
+        text () {
+            return this.content ? this.content.substr(0, this.substr) : '';
+        },
+        actualSize () {
+            return typeof this.size === 'number' ? `${this.size}px` : this.size;
+        }
+    }
+};
+</script>
+<style lang="scss">
+    @import "index";
+</style>

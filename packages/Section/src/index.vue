@@ -13,10 +13,9 @@ export default {
         return {
             scrollContainer: null,
             scrollYBar: null,
-            distanceY: 0,
             startY: 0,
             showScrollY: false,
-            dd: 0
+            distanceY: 0
         }
     },
     methods: {
@@ -36,18 +35,22 @@ export default {
         clickStart (el) {
             const e = el || event;
             this.startY = e.pageY;
-            this.dd = parseFloat(this.scrollYBar.style.top) - this.scrollContainer.scrollTop;
+            this.distanceY = parseFloat(this.scrollYBar.style.top) - this.scrollContainer.scrollTop;
+            // 这里如果是滚动条一直都可见的，即不是悬浮上去才可见的话，可以用document来绑定mouseover事件会更好。
+            // 在这里由于是悬浮可见，所以绑定滚动容器即可，减少监听事件的触发
             this.scrollContainer.addEventListener('mousemove', this.moveScrollBar);
+            document.addEventListener('mouseup', this.clickEnd);
         },
         clickEnd () {
             this.scrollContainer.removeEventListener('mousemove', this.moveScrollBar);
+            document.removeEventListener('mouseup', this.clickEnd);
         },
         moveScrollBar (el) {
             const e = el || event;
-            const distance = this.dd + e.pageY - this.startY;
+            const distance = this.distanceY + e.pageY - this.startY;
             const scrollTop = this.scrollContainer.scrollHeight * distance / this.scrollContainer.clientHeight;
             if (scrollTop < 0) {
-                (scrollTop + this.scrollContainer.scrollTop < 0) && (this.scrollContainer.scrollTop = 0);
+                this.scrollContainer.scrollTop = 0
                 return;
             }
             if (scrollTop + this.scrollContainer.clientHeight >= this.scrollContainer.scrollHeight) {
@@ -64,8 +67,6 @@ export default {
         this.scrollContainer.addEventListener('mouseover', this.showScrollBar);
         this.scrollContainer.addEventListener('mouseout', this.hideScrollBar);
         this.scrollYBar.addEventListener('mousedown', this.clickStart);
-        this.scrollYBar.addEventListener('mousedown', this.clickStart);
-        document.addEventListener('mouseup', this.clickEnd);
     },
     destroyed () {
         this.scrollContainer.removeEventListener('scroll', this.handleScroll);

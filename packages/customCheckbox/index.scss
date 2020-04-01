@@ -1,0 +1,52 @@
+
+.custom-checkbox {
+    font-size: 12px;
+    cursor: pointer;
+    user-select:none;
+    transition: all 1s;
+    &:hover {
+        .custom-checkbox-outlook {
+            border-color: #32A1FF;
+        }
+    }
+    &.is-disabled {
+        cursor: not-allowed;
+        .custom-checkbox-outlook {
+            background-color: #f7f7f7;
+            border-color: #ccc;
+            &.is-checked::after {
+                border-color: #b9b9b9;
+            }
+        }
+    }
+}
+.custom-checkbox-outlook {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    vertical-align: text-bottom;
+    transition: all .3s;
+    &.is-checked {
+        background-color: #32A1FF;
+        border-color: #32A1FF;
+        color: #fff;
+        text-align: center;
+        &::after {
+            display: inline-block;
+            content: '';
+            width: 9px;
+            height: 5px;
+            border-width: 0 0 2px 2px;
+            border-style: solid;
+            border-color: #fff;
+            transform: translateY(-6px) rotate(-45deg);
+        }
+    }
+}
+.custom-checkbox-input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}

@@ -1,0 +1,77 @@
+.custom-select {
+    $PRIMARY-COLOR: #32A1FF;
+    %text-primary {
+        color: $PRIMARY-COLOR;
+    }
+    font-size: 12px;
+    user-select: none;
+    color: #323232;
+    .custom-select-popper {
+        margin: -16px;
+        .custom-select-title {
+            padding: 16px;
+            line-height: 1;
+            color: #323232;
+            text-align: left;
+            border-bottom: 1px solid #EFF3F6;
+            &.is-group {
+                text-align: right;
+            }
+            & > span:first-child {
+                cursor: pointer;
+                @extend %text-primary
+            }
+            &:not(.is-group) span:last-child {
+                float: right;
+            }
+        }
+        .custom-select-option {
+            display: flex;
+            align-items: stretch; // 为了让每个面板高度一致
+            font-size: 0;
+        }
+        .custom-level-ul, .checkbox-list {
+            display: inline-block;
+            vertical-align: top;
+        }
+        .custom-level-ul {
+            display: inline-block;
+            padding: 8px 0;
+            min-width: 160px;
+            max-height: 318px;
+            overflow: auto;
+            font-size: 12px;
+            border-right: 1px solid #EFF3F6;
+            %active {
+                color: #32A1FF;
+                background: #DFEEFF;
+            }
+            & > li {
+                padding: 0 16px;
+                line-height: 32px;
+                cursor: pointer;
+                &:hover {
+                    @extend %active;
+                }
+                &.is-active {
+                    @extend %active;
+                }
+            }
+        }
+        .custom-select-footer {
+            padding: 16px 24px;
+            border-top: 1px solid #EFF3F6;
+            text-align: right;
+            line-height: 1;
+            & > span {
+                cursor: pointer;
+                & + span {
+                    margin-left: 16px;
+                }
+                &:first-child {
+                    @extend %text-primary
+                }
+            }
+        }
+    }
+}

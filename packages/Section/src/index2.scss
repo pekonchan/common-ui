@@ -1,11 +1,10 @@
 .com-section {
     position: relative;
     overflow: hidden;
+    height: 100px;
     user-select: none;
     .com-section-view {
-        margin-right: -17px;
-        margin-bottom: -17px;
-        overflow: scroll;
+        position: absolute;
     }
     .com-section-scrollY {
         position: absolute;

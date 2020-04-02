@@ -32,10 +32,10 @@
 
 <script>
 import customPopper from '../customPopper';
-import customCheckbox from '../customCheckbox';
 import checkboxList from './checkboxList';
 export default {
-    components: {customPopper, customCheckbox, checkboxList},
+    name: 'ComfirmSelect',
+    components: {customPopper, checkboxList},
     props: {
         option: {
             type: Array,
@@ -87,7 +87,7 @@ export default {
         isSelectedAll () {
             const enabledLen = this.checkboxList.filter(item => !item.disabled).length;
             const len = this.checkboxList.length;
-            return enabledLen === this.count && len - enabledLen !== len;
+            return len === this.count && len - enabledLen !== len;
         },
         count () {
             return this.checkboxList.filter(item => item.checked).length;

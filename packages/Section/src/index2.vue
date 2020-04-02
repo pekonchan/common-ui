@@ -16,7 +16,8 @@ export default {
             startY: 0,
             showScrollY: false,
             distanceY: 0,
-            comSection: null
+            comSection: null,
+            scrollY: 0
         }
     },
     methods: {
@@ -36,40 +37,40 @@ export default {
         clickStart (el) {
             const e = el || event;
             this.startY = e.pageY;
-            this.distanceY = this.scrollContainer.scrollTop;
+            this.distanceY = parseFloat(this.scrollContainer.style.top);
+            this.scrollY = parseFloat(this.scrollYBar.style.top)
             // 这里如果是滚动条一直都可见的，即不是悬浮上去才可见的话，可以用document来绑定mouseover事件会更好。
             // 在这里由于是悬浮可见，所以绑定滚动容器即可，减少监听事件的触发
-            document.addEventListener('mousemove', this.moveScrollBar);
+            this.comSection.addEventListener('mousemove', this.moveScrollBar);
             document.addEventListener('mouseup', this.clickEnd);
-            this.comSection.removeEventListener('mouseout', this.hideScrollBar);
         },
         clickEnd () {
-            document.removeEventListener('mousemove', this.moveScrollBar);
+            this.comSection.removeEventListener('mousemove', this.moveScrollBar);
             document.removeEventListener('mouseup', this.clickEnd);
-            this.comSection.addEventListener('mouseout', this.hideScrollBar);
         },
         moveScrollBar (el) {
             const e = el || event;
             const distance = e.pageY - this.startY;
-            const top = this.scrollContainer.scrollHeight * distance / this.scrollContainer.clientHeight;
-            const scrollTop = top + this.distanceY;
-            if (scrollTop < 0) {
-                this.scrollContainer.scrollTop = 0
+            const top = this.scrollContainer.scrollHeight * -distance / this.comSection.clientHeight;
+            const scrollTop = this.distanceY + top;
+            if (-scrollTop > this.scrollContainer.scrollHeight - this.comSection.clientHeight) {
+                this.scrollContainer.style.top = (-this.scrollContainer.scrollHeight + this.comSection.clientHeight) + 'px';
                 return;
             }
-            if (scrollTop + this.scrollContainer.clientHeight >= this.scrollContainer.scrollHeight) {
-                this.scrollContainer.scrollTop = this.scrollContainer.scrollHeight - this.scrollContainer.clientHeight;
+            if (-scrollTop < 0) {
+                this.scrollContainer.style.top = 0 + 'px';
                 return;
             }
-            this.scrollContainer.scrollTop = scrollTop;
+             this.scrollContainer.style.top = scrollTop + 'px';
+             this.scrollYBar.style.top = this.scrollY + distance + 'px';
         }
     },
     mounted () {
         this.scrollContainer = this.$refs.comSectionView;
         this.scrollYBar = this.$refs.scrollY;
         this.comSection = this.$refs.comSection;
-        this.scrollYBar.style.height = this.scrollContainer.clientHeight * this.scrollContainer.clientHeight / this.scrollContainer.scrollHeight + 'px';
-        this.scrollContainer.addEventListener('scroll', this.handleScroll);
+        this.scrollYBar.style.height = this.comSection.clientHeight * this.comSection.clientHeight / this.scrollContainer.scrollHeight + 'px';
+        // this.scrollContainer.addEventListener('scroll', this.handleScroll);
         this.comSection.addEventListener('mouseover', this.showScrollBar);
         this.comSection.addEventListener('mouseout', this.hideScrollBar);
         this.scrollYBar.addEventListener('mousedown', this.clickStart);
@@ -83,5 +84,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import 'index';
+@import 'index2';
 </style>

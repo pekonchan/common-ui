@@ -1,0 +1,23 @@
+.com-section {
+    overflow: hidden;
+    user-select: none;
+    .com-section-view {
+        position: relative;
+        margin-right: -17px;
+        margin-bottom: -17px;
+        overflow: scroll;
+        .com-section-scrollY {
+            position: absolute;
+            display: block;
+            right: 2px;
+            width: 7px;
+            height: 45%;
+            border-radius: 7px;
+            background-color:rgba(151, 168, 190, .5);
+            &:hover {
+                background-color: rgba(151, 168, 190, 1);
+            }
+            cursor: pointer;
+        }
+    }
+}

@@ -1,9 +1,9 @@
 <template>
-    <div ref="comSection" class="com-section">
+    <div class="com-section">
         <div ref="comSectionView" class="com-section-view">
             <slot></slot>
+            <div ref="scrollY" v-show="showScrollY" class="com-section-scrollY" style="top: 0;"></div>
         </div>
-        <div ref="scrollY" v-show="showScrollY" class="com-section-scrollY" style="top: 0;"></div>
     </div>
 </template>
 
@@ -15,8 +15,7 @@ export default {
             scrollYBar: null,
             startY: 0,
             showScrollY: false,
-            distanceY: 0,
-            comSection: null
+            distanceY: 0
         }
     },
     methods: {
@@ -24,7 +23,7 @@ export default {
             if (this.scrollContainer.scrollTop + this.scrollContainer.clientHeight >= this.scrollContainer.scrollHeight) {
                 return;
             }
-            const top = this.scrollContainer.scrollTop * this.scrollContainer.clientHeight / this.scrollContainer.scrollHeight;
+            const top = this.scrollContainer.scrollTop * this.scrollContainer.clientHeight / this.scrollContainer.scrollHeight + this.scrollContainer.scrollTop;
             this.scrollYBar.style.top = top + 'px';
         },
         showScrollBar () {
@@ -36,23 +35,20 @@ export default {
         clickStart (el) {
             const e = el || event;
             this.startY = e.pageY;
-            this.distanceY = this.scrollContainer.scrollTop;
+            this.distanceY = parseFloat(this.scrollYBar.style.top) - this.scrollContainer.scrollTop;
             // 这里如果是滚动条一直都可见的，即不是悬浮上去才可见的话，可以用document来绑定mouseover事件会更好。
             // 在这里由于是悬浮可见，所以绑定滚动容器即可，减少监听事件的触发
-            document.addEventListener('mousemove', this.moveScrollBar);
+            this.scrollContainer.addEventListener('mousemove', this.moveScrollBar);
             document.addEventListener('mouseup', this.clickEnd);
-            this.comSection.removeEventListener('mouseout', this.hideScrollBar);
         },
         clickEnd () {
-            document.removeEventListener('mousemove', this.moveScrollBar);
+            this.scrollContainer.removeEventListener('mousemove', this.moveScrollBar);
             document.removeEventListener('mouseup', this.clickEnd);
-            this.comSection.addEventListener('mouseout', this.hideScrollBar);
         },
         moveScrollBar (el) {
             const e = el || event;
-            const distance = e.pageY - this.startY;
-            const top = this.scrollContainer.scrollHeight * distance / this.scrollContainer.clientHeight;
-            const scrollTop = top + this.distanceY;
+            const distance = this.distanceY + e.pageY - this.startY;
+            const scrollTop = this.scrollContainer.scrollHeight * distance / this.scrollContainer.clientHeight;
             if (scrollTop < 0) {
                 this.scrollContainer.scrollTop = 0
                 return;
@@ -67,21 +63,19 @@ export default {
     mounted () {
         this.scrollContainer = this.$refs.comSectionView;
         this.scrollYBar = this.$refs.scrollY;
-        this.comSection = this.$refs.comSection;
-        this.scrollYBar.style.height = this.scrollContainer.clientHeight * this.scrollContainer.clientHeight / this.scrollContainer.scrollHeight + 'px';
         this.scrollContainer.addEventListener('scroll', this.handleScroll);
-        this.comSection.addEventListener('mouseover', this.showScrollBar);
-        this.comSection.addEventListener('mouseout', this.hideScrollBar);
+        this.scrollContainer.addEventListener('mouseover', this.showScrollBar);
+        this.scrollContainer.addEventListener('mouseout', this.hideScrollBar);
         this.scrollYBar.addEventListener('mousedown', this.clickStart);
     },
     destroyed () {
         this.scrollContainer.removeEventListener('scroll', this.handleScroll);
-        this.comSection.removeEventListener('mouseover', this.showScrollBar);
-        this.comSection.removeEventListener('mouseout', this.hideScrollBar);
+        this.scrollContainer.removeEventListener('mouseover', this.showScrollBar);
+        this.scrollContainer.removeEventListener('mouseout', this.hideScrollBar);
     }
 }
 </script>
 
 <style lang="scss">
-@import 'index';
+@import 'index3';
 </style>

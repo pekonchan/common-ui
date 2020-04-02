@@ -56,7 +56,7 @@ export default {
         isSelectedAll () {
             const enabledLen = this.option.filter(item => !item[this.propNew.disabled]).length;
             const len = this.option.length;
-            return enabledLen === this.option.filter(item => item.checked).length && len - enabledLen !== len;
+            return len === this.option.filter(item => item.checked).length && len - enabledLen !== len;
         },
         hasData () {
             return this.option.length > 0;

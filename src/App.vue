@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Section style="400px;background: pink; color: #fff;">
+    <Section width="400px" height="100px" style="400px;background: pink; color: #fff;">
       <div v-for="(item, index) in navs" :key="index">{{item.label}}</div>
     </Section>
   </div>
@@ -65,8 +65,9 @@ export default {
     margin: 0;
     padding-top: 24px;
   }
-  .com-section-view {
-    height: 100px;
+
+  .com-section-view > div:first-child {
+    width: 1000px;
   }
 
 </style>

@@ -1,4 +1,4 @@
-import Section from './src/index3.vue';
+import Section from './src/index.vue';
 
 Section.install = (Vue) => {
     Vue.component(Section.name, Section);

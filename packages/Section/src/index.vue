@@ -1,5 +1,5 @@
 <template>
-    <div ref="comSection" class="com-section" :style="{height: sectionHeight, width: sectionWidth, overflow: needCustom ? 'hidden' : 'visible'}">
+    <div ref="comSection" class="com-section" :style="{height: sectionHeight, width: sectionWidth, overflow: needCustom ? 'hidden' : 'auto'}">
         <div v-if="needCustom" ref="comSectionView" class="com-section-view">
             <slot></slot>
         </div>
@@ -61,7 +61,7 @@ export default {
         handleScroll (el) {
             const e = el || event;
             const target = e.target || e.srcElement;
-            if (target.scrollTop - this.scrollTop) {
+            if (target.scrollTop !== this.scrollTop) {
                 this.showScrollY = this.scrollContainer.scrollHeight > this.scrollContainer.clientHeight;
                 if (this.showScrollY) {
                     this.timerY && clearTimeout(this.timerY);
@@ -78,7 +78,7 @@ export default {
                 this.scrollTop = target.scrollTop;
                 return;
             }
-            if (target.scrollLeft - this.scrollLeft) {
+            if (target.scrollLeft !== this.scrollLeft) {
                 this.showScrollX = this.scrollContainer.scrollWidth > this.scrollContainer.clientWidth;
                 if (this.showScrollX) {
                     this.timerX && clearTimeout(this.timerX);
@@ -117,39 +117,55 @@ export default {
             document.removeEventListener('mousemove', this.moveScrollXBar);
             document.removeEventListener('mouseup', this.clickEnd);
             this.scrollY.addEventListener('mouseout', this.hoverOutSrollBar);
+            this.scrollX.addEventListener('mouseout', this.hoverOutSrollBar);
         },
         moveScrollYBar (el) {
-            this.moveScrollBar(el, 'startY', 'scrollHeight', 'clientHeight', 'distanceY', 'scrollTop');
+            this.moveScrollBar(el, 'pageY', 'startY', 'scrollHeight', 'clientHeight', 'distanceY', 'scrollTop');
         },
         moveScrollXBar (el) {
-            this.moveScrollBar(el, 'startX', 'scrollWidth', 'clientWidth', 'distanceX', 'scrollLeft');
+            this.moveScrollBar(el, 'pageX', 'startX', 'scrollWidth', 'clientWidth', 'distanceX', 'scrollLeft');
         },
-        moveScrollBar (el, start, scrollArea, clientArea, distance, scroll) {
+        /**
+         * 按住滚动条移动
+         */
+        moveScrollBar (el, pageOffset, start, scrollArea, clientArea, distance, scroll) {
             const e = el || event;
-            const delta = e.pageY - this[start];
-            const top = this.scrollContainer[scrollArea] * delta / this.scrollContainer[clientArea];
-            const change = top + this[distance];
+            const delta = e[pageOffset] - this[start];
+            let change = this.scrollContainer[scrollArea] * delta / this.scrollContainer[clientArea]; // 根据移动的距离，计算出内容应该被移动的距离（scrollTop/scrollLeft）
+            change += this[distance]; // 加上原本已经移动的内容位置，得出确实的scrollTop/scrollLeft
+            // 如果计算值是负数，证明肯定回到滚动最开始的位置了
             if (change < 0) {
                 this.scrollContainer[scroll] = 0
                 return;
             }
+            // 如果大于最大等于移动距离，那么即到达底部
             if (change + this.scrollContainer[clientArea] >= this.scrollContainer[scrollArea]) {
                 this.scrollContainer[scroll] = this.scrollContainer[scrollArea] - this.scrollContainer[clientArea];
                 return;
             }
-            this.scrollContainer[scroll] = change;
+            this.scrollContainer[scroll] = change; // 设置了scrollTop/scrollLeft会引起scroll事件的触发
         },
+        /**
+         * 悬浮垂直滚动条或所在区域
+         */
         hoverSrollYBar () {
             this.hoverScrollBar('scrollHeight', 'clientHeight', 'scrollYBar', 'scrollY', 'height');
         },
+        /**
+         * 悬浮水平滚动条或所在区域
+         */
         hoverSrollXBar () {
             this.hoverScrollBar('scrollWidth', 'clientWidth', 'scrollXBar', 'scrollX', 'width');
         },
+        /**
+         * 鼠标移入（悬浮）滚动条或滚动条所在区域
+         */
         hoverScrollBar (scrollArea, clientArea, scrollBar, scrollBarArea, style) {
             const sA = this.scrollContainer[scrollArea];
             const cA = this.scrollContainer[clientArea];
+            // 达到展示滚动条条件时
             if (sA > cA) {
-                this[scrollBar].style[style] = cA * cA / sA + 'px';
+                this[scrollBar].style[style] = cA * cA / sA + 'px'; // 设置滚动条长度
                 this[scrollBar].className += ' is-show';
                 this[scrollBar].addEventListener('mousedown', this.clickStart);
                 this[scrollBarArea].addEventListener('mouseout', this.hoverOutSroll);

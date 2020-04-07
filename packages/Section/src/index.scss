@@ -3,13 +3,10 @@
     overflow: hidden;
     user-select: none;
     .com-section-view {
-        margin-right: -17px;
-        margin-bottom: -17px;
-        // height: 100%;
-        height: calc(100% + 17px);
+        height: 100%;
         overflow: scroll;
     }
-    .com-section-scrollY {
+    .com-section-scroll-y {
         position: absolute;
         right: 1px;
         width: 7px;
@@ -17,7 +14,26 @@
         background-color:rgba(0, 0, 0, .5);
         opacity: 0;
         cursor: pointer;
-        transition: width,opacity .5s ease 0s;
+        transition: opacity .5s ease 0s;
+        // &:hover {
+        //     width: 8px;
+        //     opacity: 1;
+        // }
+        &.is-show {
+            opacity: 1;
+            // transition: opacity .5s ease 0s;
+            transition: opacity 0s ease 0s;
+        }
+    }
+    .com-section-scroll-x {
+        position: absolute;
+        bottom: 1px;
+        height: 7px;
+        border-radius: 7px;
+        background-color:rgba(0, 0, 0, .5);
+        opacity: 0;
+        cursor: pointer;
+        transition: opacity .5s ease 0s;
         // &:hover {
         //     width: 8px;
         //     opacity: 1;

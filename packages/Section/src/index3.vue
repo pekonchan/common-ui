@@ -1,30 +1,66 @@
 <template>
-    <div class="com-section">
+    <div ref="comSection" class="com-section" :style="{height: sectionHeight, width: sectionWidth}">
         <div ref="comSectionView" class="com-section-view">
             <slot></slot>
-            <div ref="scrollY" v-show="showScrollY" class="com-section-scrollY" style="top: 0;"></div>
         </div>
+        <div ref="scrollY" v-show="showScrollY" class="com-section-scrollY" :class="{'is-show': showScrollY}" style="top: 0;"></div>
     </div>
 </template>
 
 <script>
 export default {
+    props: {
+        height: {
+            type: [Number, String],
+            default: 'auto'
+        },
+        width: {
+            type: [Number, String],
+            default: 'auto'
+        }
+    },
     data () {
         return {
             scrollContainer: null,
             scrollYBar: null,
             startY: 0,
             showScrollY: false,
-            distanceY: 0
+            distanceY: 0,
+            comSection: null,
+            wheelStart: 0,
+            wheelDelta: 0
+        }
+    },
+    computed: {
+        sectionHeight () {
+            return this.formatValue(this.height);
+        },
+        sectionWidth () {
+            return this.formatValue(this.width);
         }
     },
     methods: {
-        handleScroll () {
-            if (this.scrollContainer.scrollTop + this.scrollContainer.clientHeight >= this.scrollContainer.scrollHeight) {
-                return;
+        formatValue (value) {
+            return typeof value === 'number' ? `${value}px` : value;
+        },
+        handleScroll (el) {
+            console.log('handleScroll -> el', el);
+            this.showScrollY = this.comSection.clientHeight < this.scrollContainer.offsetHeight;
+            if (this.showScrollY) {
+                const e = el || event;
+                this.timer && clearTimeout(this.timer);
+                this.wheelStart = e.deltaY;
+                this.wheelDelta = e.deltaY - this.wheelStart;
+                this.scrollYBar.style.height = this.comSection.clientHeight * this.comSection.clientHeight / this.scrollContainer.offsetHeight + 'px';
+                if (this.scrollContainer.scrollTop + this.scrollContainer.offsetHeight > this.scrollContainer.scrollHeight) {
+                    return;
+                }
+                const top = this.wheelDelta * this.comSection.clientHeight / this.scrollContainer.offsetHeight;
+                this.scrollYBar.style.top = top + 'px';
+                // this.timer = setTimeout(() => {
+                //     this.showScrollY = false;
+                // }, 800);
             }
-            const top = this.scrollContainer.scrollTop * this.scrollContainer.clientHeight / this.scrollContainer.scrollHeight + this.scrollContainer.scrollTop;
-            this.scrollYBar.style.top = top + 'px';
         },
         showScrollBar () {
             this.showScrollY = this.scrollContainer.scrollHeight > this.scrollContainer.clientHeight;
@@ -63,10 +99,11 @@ export default {
     mounted () {
         this.scrollContainer = this.$refs.comSectionView;
         this.scrollYBar = this.$refs.scrollY;
-        this.scrollContainer.addEventListener('scroll', this.handleScroll);
-        this.scrollContainer.addEventListener('mouseover', this.showScrollBar);
-        this.scrollContainer.addEventListener('mouseout', this.hideScrollBar);
-        this.scrollYBar.addEventListener('mousedown', this.clickStart);
+        this.comSection = this.$refs.comSection;
+        this.comSection.addEventListener('wheel', this.handleScroll);
+        // this.scrollContainer.addEventListener('mouseover', this.showScrollBar);
+        // this.scrollContainer.addEventListener('mouseout', this.hideScrollBar);
+        // this.scrollYBar.addEventListener('mousedown', this.clickStart);
     },
     destroyed () {
         this.scrollContainer.removeEventListener('scroll', this.handleScroll);

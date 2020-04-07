@@ -1,23 +1,96 @@
 .com-section {
+    position: relative;
     overflow: hidden;
     user-select: none;
     .com-section-view {
-        position: relative;
-        margin-right: -17px;
-        margin-bottom: -17px;
-        overflow: scroll;
-        .com-section-scrollY {
-            position: absolute;
-            display: block;
-            right: 2px;
-            width: 7px;
-            height: 45%;
-            border-radius: 7px;
-            background-color:rgba(151, 168, 190, .5);
-            &:hover {
-                background-color: rgba(151, 168, 190, 1);
-            }
-            cursor: pointer;
+    }
+    .com-section-scrollY {
+        position: absolute;
+        right: 1px;
+        width: 7px;
+        border-radius: 7px;
+        background-color:rgba(0, 0, 0, .5);
+        opacity: 0;
+        cursor: pointer;
+        transition: opacity .5s ease 0s;
+        // &:hover {
+        //     width: 8px;
+        //     opacity: 1;
+        // }
+        &.is-show {
+            opacity: 1;
+            // transition: opacity .5s ease 0s;
+            transition: opacity 0s ease 0s;
         }
     }
+}
+
+
+.el-scrollbar {
+    overflow: hidden;
+    position: relative
+}
+
+.el-scrollbar:active>.el-scrollbar__bar,
+.el-scrollbar:focus>.el-scrollbar__bar,
+.el-scrollbar:hover>.el-scrollbar__bar {
+    opacity: 1;
+    transition: opacity .34s ease-out
+}
+
+.el-scrollbar__wrap {
+    overflow: scroll;
+    height: 100%;
+}
+
+.el-scrollbar__wrap--hidden-default {
+    scrollbar-width: none
+}
+
+.el-scrollbar__wrap--hidden-default::-webkit-scrollbar {
+    width: 0;
+    height: 0
+}
+
+.el-scrollbar__thumb {
+    position: relative;
+    display: block;
+    width: 0;
+    height: 0;
+    cursor: pointer;
+    border-radius: inherit;
+    background-color: rgba(144, 147, 153, .3);
+    transition: background-color .3s
+}
+
+.el-scrollbar__thumb:hover {
+    background-color: rgba(144, 147, 153, .5)
+}
+
+.el-scrollbar__bar {
+    position: absolute;
+    right: 2px;
+    bottom: 2px;
+    z-index: 1;
+    border-radius: 4px;
+    opacity: 0;
+    transition: opacity .12s ease-out
+}
+
+.el-scrollbar__bar.is-vertical {
+    width: 6px;
+    top: 2px
+}
+
+.el-scrollbar__bar.is-vertical>div {
+    width: 100%
+}
+
+.el-scrollbar__bar.is-horizontal {
+    height: 6px;
+    left: 2px
+}
+
+.el-scrollbar__bar.is-horizontal>div {
+    height: 100%
 }

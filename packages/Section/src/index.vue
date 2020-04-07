@@ -159,7 +159,6 @@ export default {
          * 滚动条所在区域鼠标移出时，滚动条要消失
          */
         hoverOutSroll (el) {
-            console.log('hoverOutSroll -> el', el);
             const e = el || event;
             const target = e.target || e.srcElement;
             if (/(com-section-scroll-y)|(scroll-y-bar)/.test(target.className)) {

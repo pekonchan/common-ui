@@ -1,10 +1,14 @@
 <template>
-    <div ref="comSection" class="com-section" :style="{height: sectionHeight, width: sectionWidth}">
+    <div ref="comSection" class="com-section" :style="{height: sectionHeight, width: sectionWidth, overflow: needCustom ? 'hidden' : 'visible'}">
         <div v-if="needCustom" ref="comSectionView" class="com-section-view">
             <slot></slot>
         </div>
-        <div v-if="needCustom" ref="scrollY" class="com-section-scroll-y" :class="{'is-show': showScrollY}" style="top: 0;"></div>
-        <div v-if="needCustom" ref="scrollX" class="com-section-scroll-x" :class="{'is-show': showScrollX}" style="left: 0;"></div>
+        <div v-if="needCustom" ref="scrollY" class="com-section-scroll-y" :class="{'is-show': showScrollY}">
+            <div ref="scrollYBar" class="scroll-y-bar"></div>
+        </div>
+        <div v-if="needCustom" ref="scrollX" class="com-section-scroll-x" :class="{'is-show': showScrollX}">
+            <div ref="scrollXBar" class="scroll-x-bar"></div>
+        </div>
         <slot v-if="!needCustom"></slot>
     </div>
 </template>
@@ -26,11 +30,14 @@ export default {
             needCustom: false, // 是否需要自定义滚动条，目前已知是mac不需要
             scrollContainer: null,
             scrollYBar: null,
+            scrollY: null,
             scrollXBar: null,
             startY: 0,
+            startX: 0,
             showScrollY: false,
             showScrollX: false,
             distanceY: 0,
+            distanceX: 0,
             comSection: null,
             timerY: null,
             timerX: null,
@@ -63,7 +70,7 @@ export default {
                         return;
                     }
                     const top = this.scrollContainer.scrollTop * this.scrollContainer.clientHeight / this.scrollContainer.scrollHeight;
-                    this.scrollYBar.style.top = top + 'px';
+                    this.scrollYBar.style.transform = `translateY(${top}px)`;
                     this.timerY = setTimeout(() => {
                         this.showScrollY = false;
                     }, 800);
@@ -80,7 +87,7 @@ export default {
                         return;
                     }
                     const left = this.scrollContainer.scrollLeft * this.scrollContainer.clientWidth / this.scrollContainer.scrollWidth;
-                    this.scrollXBar.style.left = left + 'px';
+                    this.scrollXBar.style.transform = `translateX(${left}px)`;
                     this.timerX = setTimeout(() => {
                         this.showScrollX = false;
                     }, 800);
@@ -91,49 +98,78 @@ export default {
         },
         clickStart (el) {
             const e = el || event;
-            this.startY = e.pageY;
-            this.distanceY = this.scrollContainer.scrollTop;
-            // 这里如果是滚动条一直都可见的，即不是悬浮上去才可见的话，可以用document来绑定mouseover事件会更好。
-            // 在这里由于是悬浮可见，所以绑定滚动容器即可，减少监听事件的触发
-            document.addEventListener('mousemove', this.moveScrollBar);
+            const target = e.target || e.srcElement;
+            if (/scroll-y-bar/.test(target.className)) {
+                this.startY = e.pageY;
+                this.distanceY = this.scrollContainer.scrollTop;
+                this.scrollY.removeEventListener('mouseout', this.hoverOutSrollBar);
+                document.addEventListener('mousemove', this.moveScrollYBar);
+            } else {
+                this.startX = e.pageX;
+                this.distanceX = this.scrollContainer.scrollLeft;
+                this.scrollX.removeEventListener('mouseout', this.hoverOutSrollBar);
+                document.addEventListener('mousemove', this.moveScrollXBar);
+            }
             document.addEventListener('mouseup', this.clickEnd);
-            this.scrollYBar.removeEventListener('mouseout', this.hoverOutSrollBar);
         },
         clickEnd () {
             document.removeEventListener('mousemove', this.moveScrollBar);
             document.removeEventListener('mouseup', this.clickEnd);
-            this.scrollYBar.addEventListener('mouseout', this.hoverOutSrollBar);
+            this.scrollY.addEventListener('mouseout', this.hoverOutSrollBar);
         },
-        moveScrollBar (el) {
+        moveScrollYBar (el) {
+            this.moveScrollBar(el, 'startY', 'scrollHeight', 'clientHeight', 'distanceY', 'scrollTop');
+        },
+        moveScrollXBar (el) {
+            this.moveScrollBar(el, 'startX', 'scrollWidth', 'clientWidth', 'distanceX', 'scrollLeft');
+        },
+        moveScrollBar (el, start, scrollArea, clientArea, distance, scroll) {
             const e = el || event;
-            const distance = e.pageY - this.startY;
-            const top = this.scrollContainer.scrollHeight * distance / this.scrollContainer.clientHeight;
-            const scrollTop = top + this.distanceY;
-            if (scrollTop < 0) {
-                this.scrollContainer.scrollTop = 0
+            const delta = e.pageY - this[start];
+            const top = this.scrollContainer[scrollArea] * delta / this.scrollContainer[clientArea];
+            const change = top + this[distance];
+            if (change < 0) {
+                this.scrollContainer[scroll] = 0
                 return;
             }
-            if (scrollTop + this.scrollContainer.clientHeight >= this.scrollContainer.scrollHeight) {
-                this.scrollContainer.scrollTop = this.scrollContainer.scrollHeight - this.scrollContainer.clientHeight;
+            if (change + this.scrollContainer[clientArea] >= this.scrollContainer[scrollArea]) {
+                this.scrollContainer[scroll] = this.scrollContainer[scrollArea] - this.scrollContainer[clientArea];
                 return;
             }
-            this.scrollContainer.scrollTop = scrollTop;
+            this.scrollContainer[scroll] = change;
         },
-        hoverSrollBar (el) {
-            const e = el || event;
-            if (this.scrollContainer.scrollHeight > this.scrollContainer.clientHeight) {
-                const target = e.target || e.srcElement;
-                target.className += ' is-show';
-                target.addEventListener('mouseout', this.hoverOutSrollBar);
-                target.addEventListener('mousedown', this.clickStart);
+        hoverSrollYBar () {
+            this.hoverScrollBar('scrollHeight', 'clientHeight', 'scrollYBar', 'scrollY', 'height');
+        },
+        hoverSrollXBar () {
+            this.hoverScrollBar('scrollWidth', 'clientWidth', 'scrollXBar', 'scrollX', 'width');
+        },
+        hoverScrollBar (scrollArea, clientArea, scrollBar, scrollBarArea, style) {
+            const sA = this.scrollContainer[scrollArea];
+            const cA = this.scrollContainer[clientArea];
+            if (sA > cA) {
+                this[scrollBar].style[style] = cA * cA / sA + 'px';
+                this[scrollBar].className += ' is-show';
+                this[scrollBar].addEventListener('mousedown', this.clickStart);
+                this[scrollBarArea].addEventListener('mouseout', this.hoverOutSroll);
             }
         },
-        hoverOutSrollBar (el) {
+        /**
+         * 滚动条所在区域鼠标移出时，滚动条要消失
+         */
+        hoverOutSroll (el) {
+            console.log('hoverOutSroll -> el', el);
             const e = el || event;
             const target = e.target || e.srcElement;
-            target.className = target.className.replace(' is-show', '');
-            target.removeEventListener('mousedown', this.clickStart);
-            target.removeEventListener('mouseout', this.hoverOutSrollBar);
+            if (/(com-section-scroll-y)|(scroll-y-bar)/.test(target.className)) {
+                this.scrollYBar.className = this.scrollYBar.className.replace(' is-show', '');
+                this.scrollYBar.removeEventListener('mousedown', this.clickStart);
+                this.scrollY.removeEventListener('mouseout', this.hoverOutSrollBar);
+            } else {
+                this.scrollXBar.className = this.scrollXBar.className.replace(' is-show', '');
+                this.scrollXBar.removeEventListener('mousedown', this.clickStart);
+                this.scrollX.removeEventListener('mouseout', this.hoverOutSrollBar);
+            }
         },
         /**
          * 获取原来浏览器滚动条的宽度
@@ -143,7 +179,7 @@ export default {
          */
         getOriginScrollWidth () {
             const box = document.createElement('div');
-            box.style.cssText = 'width:50px;height:50px;overflow:scroll;';
+            box.style.cssText = 'width:100px;height:100px;overflow:scroll;';
             document.body.appendChild(box);
             this.gutterWidth = box.offsetHeight - box.clientHeight;
             this.needCustom = this.gutterWidth > 0;
@@ -156,19 +192,24 @@ export default {
     mounted () {
         if (!this.needCustom) { return; }
         this.scrollContainer = this.$refs.comSectionView;
-        this.scrollYBar = this.$refs.scrollY;
-        this.scrollXBar = this.$refs.scrollX;
+        this.scrollY = this.$refs.scrollY;
+        this.scrollX = this.$refs.scrollX;
         this.comSection = this.$refs.comSection;
-        this.gutterWidth && (this.scrollContainer.style.cssText += `margin-right:-${this.gutterWidth}px;margin-bottom:-${this.gutterWidth}px;height: calc(100% + ${this.gutterWidth}px);`);
+        this.scrollYBar = this.$refs.scrollYBar;
+        this.scrollXBar = this.$refs.scrollXBar;
+        this.scrollContainer.style.cssText += `margin-right:-${this.gutterWidth}px;margin-bottom:-${this.gutterWidth}px;height: calc(100% + ${this.gutterWidth}px);`
+        this.scrollYBar.style.height = this.scrollContainer.clientHeight * this.scrollContainer.clientHeight / this.scrollContainer.scrollHeight + 'px';
+        this.scrollXBar.style.width = this.scrollContainer.clientWidth * this.scrollContainer.clientWidth / this.scrollContainer.scrollWidth + 'px';
         this.scrollContainer.addEventListener('scroll', this.handleScroll);
-        this.scrollYBar.addEventListener('mouseover', this.hoverSrollBar);
-        this.scrollXBar.addEventListener('mouseover', this.hoverSrollBar);
+        this.scrollY.addEventListener('mouseover', this.hoverSrollYBar);
+        this.scrollX.addEventListener('mouseover', this.hoverSrollXBar);
         
     },
     destroyed () {
         if (!this.needCustom) { return; }
         this.scrollContainer.removeEventListener('scroll', this.handleScroll);
-        this.comSection.removeEventListener('mouseover', this.hoverSrollBar);
+        this.scrollY.removeEventListener('mouseover', this.hoverSrollYBar);
+        this.scrollX.removeEventListener('mouseover', this.hoverSrollXBar);
     }
 }
 </script>

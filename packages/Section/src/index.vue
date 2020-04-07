@@ -113,7 +113,8 @@ export default {
             document.addEventListener('mouseup', this.clickEnd);
         },
         clickEnd () {
-            document.removeEventListener('mousemove', this.moveScrollBar);
+            document.removeEventListener('mousemove', this.moveScrollYBar);
+            document.removeEventListener('mousemove', this.moveScrollXBar);
             document.removeEventListener('mouseup', this.clickEnd);
             this.scrollY.addEventListener('mouseout', this.hoverOutSrollBar);
         },

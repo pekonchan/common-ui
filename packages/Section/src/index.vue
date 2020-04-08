@@ -23,6 +23,11 @@ export default {
         width: {
             type: [Number, String],
             default: 'auto'
+        },
+        // 在原生支持修改滚动条样式的情况下，是否选择使用原生，目前只有在webkit内核浏览器上才能通过css修改
+        useNative: {
+            type: Boolean,
+            default: true
         }
     },
     data () {
@@ -64,7 +69,7 @@ export default {
         handleScroll (el) {
             const e = el || event;
             const target = e.target || e.srcElement;
-            let scroll, showScroll, scrollArea, clientArea, timer, scrollBar, style, transform;
+            let scroll, showScroll, scrollArea, clientArea, timer, scrollBar, isVertical, transform;
             // 如果是发生垂直滚动
             if (target.scrollTop !== this.scrollTop) {
                 scroll = 'scrollTop';
@@ -73,7 +78,7 @@ export default {
                 clientArea = 'clientHeight';
                 timer = 'timerY';
                 scrollBar = 'scrollYBar';
-                style = 'height';
+                isVertical = true;
                 transform = 'translateY';
             }
             // 如果是发生横向滚动
@@ -84,7 +89,7 @@ export default {
                 clientArea = 'clientWidth';
                 timer = 'timerX';
                 scrollBar = 'scrollXBar';
-                style = 'width';
+                isVertical = false;
                 transform = 'translateX';
             }
             const scrollAreaValue = this.scrollContainer[scrollArea];
@@ -93,7 +98,7 @@ export default {
             this[showScroll] = scrollAreaValue > clientAreaValue;
             if (this[showScroll]) {
                 this[timer] && clearTimeout(this[timer]); // 做简单的防抖处理
-                this[scrollBar].style[style] = clientAreaValue * clientAreaValue / scrollAreaValue + 'px'; // 每次滚动的时候重新计算滚动条尺寸，以免容器内容发生变化后，滚动条尺寸不匹配变化后的容器宽高
+                this.calcSize(isVertical); // 每次滚动的时候重新计算滚动条尺寸，以免容器内容发生变化后，滚动条尺寸不匹配变化后的容器宽高
                 if (scrollValue + clientAreaValue > scrollAreaValue) {
                     return;
                 }
@@ -226,10 +231,37 @@ export default {
             this.gutterWidth = box.offsetHeight - box.clientHeight;
             this.needCustom = this.gutterWidth > 0;
             document.body.removeChild(box);
+        },
+        /**
+         * 检查浏览器是否是webkit内核，是的话可以自定义滚动条样式
+         * @returns {Boolean} true为是webkit内核
+         */
+        checkWebkit () {
+            this.needCustom = navigator.userAgent.toLowerCase().indexOf('applewebkit') === -1;
+            return !this.needCustom;
+        },
+        /**
+         * 计算垂直/横向滚动条的宽度/高度
+         */
+        calcSize (isHeight) {
+            let scrollBar,sizeKey,clientArea,scrollArea;
+            if (isHeight) {
+                scrollBar = 'scrollYBar';
+                sizeKey = 'height';
+                clientArea = 'clientHeight';
+                scrollArea = 'scrollHeight';
+            } else {
+                scrollBar = 'scrollXBar';
+                sizeKey = 'width';
+                clientArea = 'clientWidth';
+                scrollArea = 'scrollWidth';
+            }
+            const clientAreaValue = this.scrollContainer[clientArea];
+            this[scrollBar].style[sizeKey] = clientAreaValue * clientAreaValue / this.scrollContainer[scrollArea] + 'px';
         }
     },
     created () {
-        this.getOriginScrollWidth();
+        this.useNative && this.checkWebkit() || this.getOriginScrollWidth();
     },
     mounted () {
         if (!this.needCustom) { return; }
@@ -239,8 +271,8 @@ export default {
         this.scrollYBar = this.$refs.scrollYBar;
         this.scrollXBar = this.$refs.scrollXBar;
         this.scrollContainer.style.cssText += `margin-right:-${this.gutterWidth}px;margin-bottom:-${this.gutterWidth}px;height: calc(100% + ${this.gutterWidth}px);`
-        this.scrollYBar.style.height = this.scrollContainer.clientHeight * this.scrollContainer.clientHeight / this.scrollContainer.scrollHeight + 'px';
-        this.scrollXBar.style.width = this.scrollContainer.clientWidth * this.scrollContainer.clientWidth / this.scrollContainer.scrollWidth + 'px';
+        this.calcSize(true);
+        this.calcSize();
         this.scrollContainer.addEventListener('scroll', this.handleScroll);
         this.scrollY.addEventListener('mouseover', this.hoverSrollYBar);
         this.scrollX.addEventListener('mouseover', this.hoverSrollXBar);

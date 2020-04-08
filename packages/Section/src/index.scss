@@ -45,4 +45,16 @@
             }
         }
     }
+
+    &::-webkit-scrollbar {
+        width: 7px;
+        height: 7px;
+    }
+    &::-webkit-scrollbar-thumb {
+        border-radius: 7px;
+        background: rgba(0, 0, 0, .5);
+    }
+    // &::-webkit-scrollbar-thumb:hover {
+    //     background: #b5b5b5;
+    // }
 }

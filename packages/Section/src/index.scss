@@ -26,9 +26,6 @@
                 @include showBar();
             }
         }
-        &.is-show .scroll-y-bar {
-            @include showBar();
-        }
     }
     .com-section-scroll-x {
         position: absolute;
@@ -46,9 +43,6 @@
             &.is-show {
                 @include showBar();
             }
-        }
-        &.is-show .scroll-x-bar {
-            @include showBar();
         }
     }
 }

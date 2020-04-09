@@ -95,19 +95,14 @@ export default {
             const scrollAreaValue = this.scrollContainer[scrollArea];
             const clientAreaValue = this.scrollContainer[clientArea];
             const scrollValue = this.scrollContainer[scroll];
-            this[showScroll] = scrollAreaValue > clientAreaValue;
-            if (this[showScroll]) {
-                this[timer] && clearTimeout(this[timer]); // 做简单的防抖处理
-                this.calcSize(isVertical); // 每次滚动的时候重新计算滚动条尺寸，以免容器内容发生变化后，滚动条尺寸不匹配变化后的容器宽高
-                if (scrollValue + clientAreaValue > scrollAreaValue) {
-                    return;
-                }
-                const distance = scrollValue * clientAreaValue / scrollAreaValue;
-                this[scrollBar].style.transform = `${transform}(${distance}px)`;
-                this[timer] = setTimeout(() => {
-                    this[showScroll] = false;
-                }, 800);
-            }
+            this[showScroll] = true; // 触发滚动事件，证明内容尺寸的确大于可视区域，才会发生滚动
+            this[timer] && clearTimeout(this[timer]); // 做简单的防抖处理
+            this.calcSize(isVertical); // 每次滚动的时候重新计算滚动条尺寸，以免容器内容发生变化后，滚动条尺寸不匹配变化后的容器宽高
+            const distance = scrollValue * clientAreaValue / scrollAreaValue;
+            this[scrollBar].style.transform = `${transform}(${distance}px)`;
+            this[timer] = setTimeout(() => {
+                this[showScroll] = false;
+            }, 800);
             this[scroll] = target[scroll];
         },
         /**
@@ -209,7 +204,6 @@ export default {
             const target = e.target || e.srcElement;
             if (/(com-section-scroll-y)|(scroll-y-bar)/.test(target.className)) {
                 this.showScrollY = false;
-                // this.scrollYBar.className = this.scrollYBar.className.replace(' is-show', '');
                 this.scrollYBar.removeEventListener('mousedown', this.clickStart);
                 this.scrollY.removeEventListener('mouseout', this.hoverOutSroll);
             } else {

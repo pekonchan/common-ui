@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Section width="400px" height="100px" style="background: pink; color: #fff;">
+    <Section width="400px" height="100px" :useNative="false" style="background: pink; color: #fff;">
       <div v-for="(item, index) in navs" :key="index">{{item.label}}</div>
     </Section>
   </div>

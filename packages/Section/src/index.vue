@@ -1,5 +1,5 @@
 <template>
-    <div class="com-section" :style="{height: sectionHeight, width: sectionWidth, overflow: needCustom ? 'hidden' : 'auto'}">
+    <div class="com-section" :class="{'is-scroll-native': isSurportNative}" :style="{height: sectionHeight, width: sectionWidth, overflow: needCustom ? 'hidden' : 'auto'}">
         <div v-if="needCustom" ref="comSectionView" class="com-section-view">
             <slot></slot>
         </div>
@@ -32,7 +32,8 @@ export default {
     },
     data () {
         return {
-            needCustom: false, // 是否需要自定义滚动条，目前已知是mac不需要
+            needCustom: false, // 是否需要自定义滚动条，目前已知是mac和可css修改滚动条样式不需要
+            isSurportNative: false, // 是否支持css改变滚动条样式
             scrollContainer: null, // 滚动内容所在容器
             scrollYBar: null, // 垂直滚动条浮标
             scrollXBar: null, // 横向滚动条浮标
@@ -232,7 +233,8 @@ export default {
          */
         checkWebkit () {
             this.needCustom = navigator.userAgent.toLowerCase().indexOf('applewebkit') === -1;
-            return !this.needCustom;
+            this.isSurportNative = !this.needCustom;
+            return this.isSurportNative;
         },
         /**
          * 计算垂直/横向滚动条的宽度/高度
@@ -255,7 +257,9 @@ export default {
         }
     },
     created () {
-        this.useNative && this.checkWebkit() || this.getOriginScrollWidth();
+        // mac系统用原生滚动条，否则判断是否可css改原生滚动条，不行才用自定义滚动条
+        this.getOriginScrollWidth();
+        this.needCustom && this.useNative && this.checkWebkit();
     },
     mounted () {
         if (!this.needCustom) { return; }

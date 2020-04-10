@@ -43,7 +43,7 @@ export default {
             showScrollX: false, // 是否展示横向滚动条
             startY: 0, // 记录最新一次点击滚动条时的pageY
             startX: 0, // 记录最新一次点击滚动条时的pageX
-            distanceY: 0, // 记录最新一次点击滚动条时的scrollTop
+            distanceY: 0, // 记录最新一次点击滚动条时的scrollTop，跟下面定义的scrollTop是不一样的，这个只有点击时才会更新，用于后面移动滚动条得出最终内容scrollTop；
             distanceX: 0, // 记录最新一次点击滚动条时的scrollLeft
             timerY: null, // 隐藏垂直滚动条的定时器
             timerX: null, // 隐藏横向滚动条的定时器
@@ -117,7 +117,6 @@ export default {
                 this.startY = e.pageY;
                 this.distanceY = this.scrollContainer.scrollTop;
                 this.scrollY.removeEventListener('mouseout', this.hoverOutSroll);
-                this.scrollYBar.removeEventListener('mouseout', this.hoverOutSroll);
                 document.addEventListener('mousemove', this.moveScrollYBar);
             } else { // 横向滚动条
                 this.startX = e.pageX;
@@ -161,7 +160,7 @@ export default {
             change += this[distance]; // 加上原本已经移动的内容位置，得出确实的scrollTop/scrollLeft
             // 如果计算值是负数，证明肯定回到滚动最开始的位置了
             if (change < 0) {
-                this.scrollContainer[scroll] = 0
+                this.scrollContainer[scroll] = 0;
                 return;
             }
             // 如果大于最大等于移动距离，那么即到达底部

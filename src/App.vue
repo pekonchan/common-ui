@@ -1,7 +1,9 @@
 <template>
   <div id="app">
-    <Scroll-Div view-class="myview" :useNative="false">
-      <div v-for="(item, index) in contents" :key="index">{{item.label}}</div>
+    <Scroll-Div width="400px" height="100px" padding="20px" view-class="myview">
+      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Officiis quas nobis praesentium nisi deserunt, fuga libero, error quia vero nulla corporis odio fugit atque et accusamus numquam. Tempora, qui numquam!</p>
+      <p>test测试</p>
+      <p>测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试</p>
     </Scroll-Div>
   </div>
 </template>
@@ -16,35 +18,6 @@ export default {
   },
   data () {
     return {
-      contents: [
-        {
-          label: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Officiis quas nobis praesentium nisi deserunt, fuga libero, error quia vero nulla corporis odio fugit atque et accusamus numquam. Tempora, qui numquam!'
-        },
-        {
-          label: '导航2'
-        },
-        {
-          label: '导航3'
-        },
-        {
-          label: '导航2'
-        },
-        {
-          label: '导航3'
-        },
-        {
-          label: '导航2'
-        },
-        {
-          label: '导航3'
-        },
-        {
-          label: '导航2'
-        },
-        {
-          label: '导航3'
-        }
-      ]
     };
   }
 }
@@ -58,8 +31,5 @@ export default {
   }
   .myview {
     background-color: #fff;
-    width: 400px;
-    height: 100px;
-    padding: 20px;
   }
 </style>

@@ -1,13 +1,21 @@
 <template>
-    <div class="com-section" :class="{'is-scroll-native': isSurportNative}" :style="{height: sectionHeight, width: sectionWidth, overflow: needCustom ? 'hidden' : 'auto'}">
-        <div v-if="needCustom" ref="comSectionView" class="com-section-view">
+    <div
+        class="scroll-div"
+        :class="{'is-scroll-native': isSurportNative, 'is-native-div': !needCustom, [viewClass]: !needCustom}"
+        :style="divStyle">
+        <div
+            v-if="needCustom"
+            ref="scrollDivView"
+            class="scroll-div-view"
+            :class="{[viewClass]: needCustom}"
+            :style="viewStyle">
             <slot></slot>
         </div>
-        <div v-if="needCustom" ref="scrollY" class="com-section-scroll-y">
-            <div ref="scrollYBar" class="scroll-y-bar" :class="{'is-show': showScrollY}"></div>
+        <div v-if="needCustom" ref="scrollY" class="scroll-div-y">
+            <div ref="scrollYBar" class="scroll-div-y-bar" :class="{'is-show': showScrollY}"></div>
         </div>
-        <div v-if="needCustom" ref="scrollX" class="com-section-scroll-x">
-            <div ref="scrollXBar" class="scroll-x-bar" :class="{'is-show': showScrollX}"></div>
+        <div v-if="needCustom" ref="scrollX" class="scroll-div-x">
+            <div ref="scrollXBar" class="scroll-div-x-bar" :class="{'is-show': showScrollX}"></div>
         </div>
         <slot v-if="!needCustom"></slot>
     </div>
@@ -18,60 +26,81 @@ export default {
     props: {
         height: {
             type: [Number, String],
-            default: 'auto'
+            default: ''
         },
         width: {
             type: [Number, String],
-            default: 'auto'
+            default: ''
         },
-        // 在原生支持修改滚动条样式的情况下，是否选择使用原生，目前只有在webkit内核浏览器上才能通过css修改
+        padding: {
+            type: String,
+            default: ''
+        },
         useNative: {
             type: Boolean,
             default: true
+        },
+        viewClass: {
+            type: String,
+            default: ''
         }
     },
     data () {
         return {
-            needCustom: false, // 是否需要自定义滚动条，目前已知是mac和可css修改滚动条样式不需要
-            isSurportNative: false, // 是否支持css改变滚动条样式
-            scrollContainer: null, // 滚动内容所在容器
-            scrollYBar: null, // 垂直滚动条浮标
-            scrollXBar: null, // 横向滚动条浮标
-            scrollY: null, // 垂直滚动条所在区域
-            scrollX: null, // 垂直滚动条所在区域
-            showScrollY: false, // 是否展示垂直滚动条
-            showScrollX: false, // 是否展示横向滚动条
-            startY: 0, // 记录最新一次点击滚动条时的pageY
-            startX: 0, // 记录最新一次点击滚动条时的pageX
-            distanceY: 0, // 记录最新一次点击滚动条时的scrollTop，跟下面定义的scrollTop是不一样的，这个只有点击时才会更新，用于后面移动滚动条得出最终内容scrollTop；
-            distanceX: 0, // 记录最新一次点击滚动条时的scrollLeft
-            timerY: null, // 隐藏垂直滚动条的定时器
-            timerX: null, // 隐藏横向滚动条的定时器
-            scrollTop: 0, // 记录最新一次滚动的scrollTop，用于判断滚动方向
-            scrollLeft: 0, // 记录最新一次滚动的scrollLeft，用于判断滚动方向
-            gutterWidth: 0 // 浏览器滚动条的宽度/高度
+            needCustom: false,
+            isSurportNative: false,
+            scrollContainer: null,
+            scrollYBar: null,
+            scrollXBar: null,
+            scrollY: null,
+            scrollX: null,
+            showScrollY: false,
+            showScrollX: false,
+            startY: 0,
+            startX: 0,
+            distanceY: 0,
+            distanceX: 0,
+            timerY: null,
+            timerX: null,
+            scrollTop: 0,
+            scrollLeft: 0,
+            gutterWidth: 0
         }
     },
     computed: {
-        sectionHeight () {
+        viewHeight () {
             return this.formatValue(this.height);
         },
-        sectionWidth () {
+        viewWidth () {
             return this.formatValue(this.width);
+        },
+        divStyle () {
+            if (this.needCustom) {
+                return {};
+            } else {
+                const style = {};
+                this.width && (style.width = this.viewWidth);
+                this.height && (style.height = this.viewHeight);
+                this.padding && (style.padding = this.padding);
+                return style;
+            }
+        },
+        viewStyle () {
+            const style = {};
+            this.width && (style.width = this.viewWidth);
+            this.height && (style.height = this.viewHeight);
+            this.padding && (style.padding = this.padding);
+            return style;
         }
     },
     methods: {
         formatValue (value) {
             return typeof value === 'number' ? `${value}px` : value;
         },
-        /**
-         * 处理内容滚动事件
-         */
         handleScroll (el) {
             const e = el || event;
             const target = e.target || e.srcElement;
             let scroll, showScroll, scrollArea, clientArea, timer, scrollBar, isVertical, transform;
-            // 如果是发生垂直滚动
             if (target.scrollTop !== this.scrollTop) {
                 scroll = 'scrollTop';
                 showScroll = 'showScrollY';
@@ -82,7 +111,6 @@ export default {
                 isVertical = true;
                 transform = 'translateY';
             }
-            // 如果是发生横向滚动
             if (target.scrollLeft !== this.scrollLeft) {
                 scroll = 'scrollLeft';
                 showScroll = 'showScrollX';
@@ -96,9 +124,9 @@ export default {
             const scrollAreaValue = this.scrollContainer[scrollArea];
             const clientAreaValue = this.scrollContainer[clientArea];
             const scrollValue = this.scrollContainer[scroll];
-            this[showScroll] = true; // 触发滚动事件，证明内容尺寸的确大于可视区域，才会发生滚动
-            this[timer] && clearTimeout(this[timer]); // 做简单的防抖处理
-            this.calcSize(isVertical); // 每次滚动的时候重新计算滚动条尺寸，以免容器内容发生变化后，滚动条尺寸不匹配变化后的容器宽高
+            this[showScroll] = true;
+            this[timer] && clearTimeout(this[timer]);
+            this.calcSize(isVertical);
             const distance = scrollValue * clientAreaValue / scrollAreaValue;
             this[scrollBar].style.transform = `${transform}(${distance}px)`;
             this[timer] = setTimeout(() => {
@@ -106,19 +134,15 @@ export default {
             }, 800);
             this[scroll] = target[scroll];
         },
-        /**
-         * 点击垂直/水平滚动条
-         */
         clickStart (el) {
             const e = el || event;
             const target = e.target || e.srcElement;
-            // 垂直滚动条
-            if (/scroll-y-bar/.test(target.className)) {
+            if (/scroll-div-y-bar/.test(target.className)) {
                 this.startY = e.pageY;
                 this.distanceY = this.scrollContainer.scrollTop;
                 this.scrollY.removeEventListener('mouseout', this.hoverOutSroll);
                 document.addEventListener('mousemove', this.moveScrollYBar);
-            } else { // 横向滚动条
+            } else {
                 this.startX = e.pageX;
                 this.distanceX = this.scrollContainer.scrollLeft;
                 this.scrollX.removeEventListener('mouseout', this.hoverOutSroll);
@@ -126,9 +150,6 @@ export default {
             }
             document.addEventListener('mouseup', this.clickEnd);
         },
-        /**
-         * 按住滚动条移动完松开鼠标后
-         */
         clickEnd () {
             document.removeEventListener('mousemove', this.moveScrollYBar);
             document.removeEventListener('mousemove', this.moveScrollXBar);
@@ -136,73 +157,49 @@ export default {
             this.scrollY.addEventListener('mouseout', this.hoverOutSroll);
             this.scrollX.addEventListener('mouseout', this.hoverOutSroll);
         },
-        /**
-         * 移动垂直滚动条
-         */
         moveScrollYBar (el) {
             this.moveScrollBar(el, 'pageY', 'startY', 'scrollHeight', 'clientHeight', 'distanceY', 'scrollTop');
         },
-        /**
-         * 移动横向滚动条
-         */
         moveScrollXBar (el) {
             this.moveScrollBar(el, 'pageX', 'startX', 'scrollWidth', 'clientWidth', 'distanceX', 'scrollLeft');
         },
-        /**
-         * 按住滚动条移动
-         */
         moveScrollBar (el, pageOffset, start, scrollArea, clientArea, distance, scroll) {
             const e = el || event;
             const delta = e[pageOffset] - this[start];
             const scrollAreaValue = this.scrollContainer[scrollArea];
             const clientAreaValue = this.scrollContainer[clientArea];
-            let change = scrollAreaValue * delta / clientAreaValue; // 根据移动的距离，计算出内容应该被移动的距离（scrollTop/scrollLeft）
-            change += this[distance]; // 加上原本已经移动的内容位置，得出确实的scrollTop/scrollLeft
-            // 如果计算值是负数，证明肯定回到滚动最开始的位置了
+            let change = scrollAreaValue * delta / clientAreaValue;
+            change += this[distance];
             if (change < 0) {
                 this.scrollContainer[scroll] = 0;
                 return;
             }
-            // 如果大于最大等于移动距离，那么即到达底部
             if (change + clientAreaValue >= scrollAreaValue) {
                 this.scrollContainer[scroll] = scrollAreaValue - clientAreaValue;
                 return;
             }
-            this.scrollContainer[scroll] = change; // 设置了scrollTop/scrollLeft会引起scroll事件的触发
+            this.scrollContainer[scroll] = change;
         },
-        /**
-         * 悬浮垂直滚动条或所在区域
-         */
         hoverSrollYBar () {
             this.hoverScrollBar('scrollHeight', 'clientHeight', 'showScrollY', 'scrollYBar', 'scrollY', 'height');
         },
-        /**
-         * 悬浮水平滚动条或所在区域
-         */
         hoverSrollXBar () {
             this.hoverScrollBar('scrollWidth', 'clientWidth', 'showScrollX', 'scrollXBar', 'scrollX', 'width');
         },
-        /**
-         * 鼠标移入（悬浮）滚动条或滚动条所在区域
-         */
         hoverScrollBar (scrollArea, clientArea, showScroll, scrollBar, scrollBarArea, style) {
             const sA = this.scrollContainer[scrollArea];
             const cA = this.scrollContainer[clientArea];
-            // 达到展示滚动条条件时
             if (sA > cA) {
-                this[scrollBar].style[style] = cA * cA / sA + 'px'; // 设置滚动条长度
+                this[scrollBar].style[style] = cA * cA / sA + 'px';
                 this[showScroll] = true;
                 this[scrollBar].addEventListener('mousedown', this.clickStart);
                 this[scrollBarArea].addEventListener('mouseout', this.hoverOutSroll);
             }
         },
-        /**
-         * 滚动条所在区域鼠标移出时，滚动条要消失
-         */
         hoverOutSroll (el) {
             const e = el || event;
             const target = e.target || e.srcElement;
-            if (/(com-section-scroll-y)|(scroll-y-bar)/.test(target.className)) {
+            if (/(scroll-div-y)|(scroll-div-y-bar)/.test(target.className)) {
                 this.showScrollY = false;
                 this.scrollYBar.removeEventListener('mousedown', this.clickStart);
                 this.scrollY.removeEventListener('mouseout', this.hoverOutSroll);
@@ -212,12 +209,6 @@ export default {
                 this.scrollX.removeEventListener('mouseout', this.hoverOutSroll);
             }
         },
-        /**
-         * 获取原来浏览器滚动条的宽度
-         * 从目前的情况来看，window的offsetHeight由于包含了滚动条，减去不包含滚动条的clientHeight，得出了滚动条占据的宽度
-         * mac系统的浏览器元素的滚动条不占据元素的空间，所以offsetHeight与clientHeight是一样的。
-         * 注释于2020/04/07
-         */
         getOriginScrollWidth () {
             const box = document.createElement('div');
             box.style.cssText = 'width:100px;height:100px;overflow:scroll;';
@@ -226,18 +217,11 @@ export default {
             this.needCustom = this.gutterWidth > 0;
             document.body.removeChild(box);
         },
-        /**
-         * 检查浏览器是否是webkit内核，是的话可以自定义滚动条样式
-         * @returns {Boolean} true为是webkit内核
-         */
         checkWebkit () {
             this.needCustom = navigator.userAgent.toLowerCase().indexOf('applewebkit') === -1;
             this.isSurportNative = !this.needCustom;
             return this.isSurportNative;
         },
-        /**
-         * 计算垂直/横向滚动条的宽度/高度
-         */
         calcSize (isHeight) {
             let scrollBar,sizeKey,clientArea,scrollArea;
             if (isHeight) {
@@ -256,18 +240,17 @@ export default {
         }
     },
     created () {
-        // mac系统用原生滚动条，否则判断是否可css改原生滚动条，不行才用自定义滚动条
         this.getOriginScrollWidth();
         this.needCustom && this.useNative && this.checkWebkit();
     },
     mounted () {
         if (!this.needCustom) { return; }
-        this.scrollContainer = this.$refs.comSectionView;
+        this.scrollContainer = this.$refs.scrollDivView;
         this.scrollY = this.$refs.scrollY;
         this.scrollX = this.$refs.scrollX;
         this.scrollYBar = this.$refs.scrollYBar;
         this.scrollXBar = this.$refs.scrollXBar;
-        this.scrollContainer.style.cssText += `margin-right:-${this.gutterWidth}px;margin-bottom:-${this.gutterWidth}px;height: calc(100% + ${this.gutterWidth}px);`
+        this.scrollContainer.style.cssText += `margin-right:-${this.gutterWidth}px;margin-bottom:-${this.gutterWidth}px;`
         this.calcSize(true);
         this.calcSize();
         this.scrollContainer.addEventListener('scroll', this.handleScroll);

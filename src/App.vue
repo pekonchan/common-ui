@@ -1,58 +1,48 @@
 <template>
   <div id="app">
-    <Section width="400px" height="100px" :useNative="false" style="background: pink; color: #fff;">
-      <div v-for="(item, index) in navs" :key="index">{{item.label}}</div>
-    </Section>
+    <Scroll-Div view-class="myview" :useNative="false">
+      <div v-for="(item, index) in contents" :key="index">{{item.label}}</div>
+    </Scroll-Div>
   </div>
 </template>
 
 <script>
-// import ScrollNav from '../packages/ScrollNav';
-import Section from '../packages/Section';
+import ScrollDiv from '../packages/ScrollDiv';
 
 export default {
   name: 'App',
   components: {
-    Section
+    ScrollDiv
   },
   data () {
     return {
-      navs: [
+      contents: [
         {
-          label: '导航1',
-          value: '.content1'
+          label: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Officiis quas nobis praesentium nisi deserunt, fuga libero, error quia vero nulla corporis odio fugit atque et accusamus numquam. Tempora, qui numquam!'
         },
         {
-          label: '导航2',
-          value: '.content2'
+          label: '导航2'
         },
         {
-          label: '导航3',
-          value: '.content3'
+          label: '导航3'
         },
         {
-          label: '导航2',
-          value: '.content2'
+          label: '导航2'
         },
         {
-          label: '导航3',
-          value: '.content3'
+          label: '导航3'
         },
         {
-          label: '导航2',
-          value: '.content2'
+          label: '导航2'
         },
         {
-          label: '导航3',
-          value: '.content3'
+          label: '导航3'
         },
         {
-          label: '导航2',
-          value: '.content2'
+          label: '导航2'
         },
         {
-          label: '导航3',
-          value: '.content3'
+          label: '导航3'
         }
       ]
     };
@@ -64,10 +54,12 @@ export default {
   body {
     margin: 0;
     padding-top: 24px;
+    background-color: #f5f6fa;
   }
-
-  .com-section-view > div:first-child {
-    width: 1000px;
+  .myview {
+    background-color: #fff;
+    width: 400px;
+    height: 100px;
+    padding: 20px;
   }
-
 </style>

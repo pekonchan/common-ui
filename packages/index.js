@@ -1,9 +1,11 @@
 import ScrollNav from './ScrollNav';
 import Avatar from './Avatar';
+import ScrollDiv from './ScrollDiv';
 
 const components = {
     ScrollNav,
-    Avatar
+    Avatar,
+    ScrollDiv
 }
 
 const install = () => {

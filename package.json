@@ -1,12 +1,12 @@
 {
-  "name": "scroll-nav",
+  "name": "com-ui",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "lib": "vue-cli-service build --target lib --name ScrollNav --dest lib packages"
+    "lib": "vue-cli-service build --target lib --name ComUi --dest lib packages"
   },
   "dependencies": {
     "core-js": "^3.6.4",

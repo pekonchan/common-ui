@@ -1,8 +1,13 @@
-.com-section {
+.scroll-div {
     position: relative;
+    display: inline-block;
+    overflow: hidden;
     user-select: none;
-    .com-section-view {
-        height: 100%;
+    &.is-native-div {
+        display: block;
+        overflow: auto;
+    }
+    .scroll-div-view {
         overflow: scroll;
     }
     @mixin showBar {
@@ -10,13 +15,13 @@
         opacity: 1;
         transition: opacity 0s ease 0s;
     }
-    .com-section-scroll-y {
+    .scroll-div-y {
         position: absolute;
         right: 1px;
         top: 0;
         height: 100%;
         width: 7px;
-        .scroll-y-bar {
+        .scroll-div-y-bar {
             width: 7px;
             border-radius: 7px;
             background-color:rgba(0, 0, 0, .5);
@@ -27,13 +32,13 @@
             }
         }
     }
-    .com-section-scroll-x {
+    .scroll-div-x {
         position: absolute;
         bottom: 1px;
         left: 0;
         width: 100%;
         height: 7px;
-        .scroll-x-bar {
+        .scroll-div-x-bar {
             height: 7px;
             border-radius: 7px;
             background-color:rgba(0, 0, 0, .5);
@@ -53,7 +58,4 @@
         border-radius: 7px;
         background: rgba(0, 0, 0, .5);
     }
-    // &.is-scroll-native::-webkit-scrollbar-thumb:hover {
-    //     background: #b5b5b5;
-    // }
 }

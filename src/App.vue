@@ -1,17 +1,19 @@
 <template>
   <div id="app">
-    <div ref="test" class="test" v-loading="loading">12313213</div>
-    <button style="margin-left: 100px" @click="hanldeClick">click me</button>
+    <Zoom title="123test" tooltip="12">
+      <div ref="test" class="test">12313213</div>
+      <button style="margin-left: 100px" @click="hanldeClick">click me</button>
+    </Zoom>
   </div>
 </template>
 
 <script>
-import Loading from '../packages/Loading';
+import Zoom from '~/Zoom';
 
 export default {
   name: 'App',
-  directives: {
-    Loading
+  components: {
+    Zoom
   },
   data () {
     return {

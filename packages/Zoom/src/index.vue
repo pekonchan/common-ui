@@ -1,8 +1,14 @@
 <template>
-    <div v-loading="loading" class="custom-zoom-box" :class="{'is-up': up}" :style="{height: up ? '100%' : boxtHeight}">
-        <div class="zoom-box-header">
+    <div v-loading="loading" class="com-zoom" :class="{'is-up': up}" :style="{height: up ? '100%' : boxtHeight}">
+        <div class="com-zoom-header">
             <h1>{{title}}</h1>
-            <gs-tooltip
+            <Popper v-if="titleTooltip.length > 0" class="com-zoom-tooltip">
+                <template v-slot:reference>
+                    <i class="iconfont icon-shuomingtishi">?</i>
+                </template>
+                <p v-for="item in titleTooltip" :key="item">{{item}}</p>
+            </Popper>
+            <!-- <gs-tooltip
                 v-if="titleTooltip.length > 0"
                 placement="bottom"
                 popper-class="zoom-box-tooltip">
@@ -10,34 +16,29 @@
                 <template v-slot:template>
                     <p v-for="item in titleTooltip" :key="item">{{item}}</p>
                 </template>
-            </gs-tooltip>
-            <span class="header-extra"><slot name="headerExtra"></slot></span>
+            </gs-tooltip> -->
         </div>
-        <div class="zoom-box-body">
-            <div v-if="$slots.toolbar" class="zoom-box-toolbar clearfix">
-                <slot name="toolbar"></slot>
-            </div>
-            <div v-if="!isEmpty" class="zoom-box-feauter">
+        <div class="com-zoom-body">
+            <div v-if="!isEmpty" class="com-zoom-feature">
                 <slot name="boxFeauter"></slot>
-                <i class="iconfont icon-xiazaiExcel" @click="downloadExcel"></i>
                 <i :class="['iconfont', up ? 'icon-suoxiaotubiao-' : 'icon-fangda1']" @click="handleUp"></i>
             </div>
-            <slot name="extra"></slot>
-            <gs-scrollbar wrap-class="zoom-box-content-wrap" :style="{height: up ? '85%' : _contentHeight}" :wrap-style="{height: 'calc(100% + 17px)'}">
-                <div v-if="!isEmpty" class="zoom-box-content">
+            <Scroll-Div class="com-zoom-scroll" :height="up ? '85%' : _contentHeight">
+                <div v-if="!isEmpty" class="com-zoom-content">
                     <slot></slot>
                 </div>
-                <div class="zoom-content-empty" v-else>
-                    <tip v-if="showCommonTip" :option="tipConfig"></tip>
-                    <p v-else v-for="item in showDataTip" :key="item">{{item}}</p>
+                <div class="com-zoom-empty" v-else>
+                    <p v-for="item in showDataTip" :key="item">{{item}}</p>
                 </div>
-            </gs-scrollbar>
+            </Scroll-Div>
         </div>
     </div>
 </template>
 
 <script>
-import Vue from 'vue';
+import Loading from '~/Loading';
+import Popper from '~/customPopper';
+import ScrollDiv from '~/ScrollDiv';
 
 export default {
     props: {
@@ -53,24 +54,10 @@ export default {
             type: [String, Array],
             default: ''
         },
-        noDataTip: {
+        emptyText: {
             type: [String, Array],
             default () {
                 return ['暂无数据'];
-            }
-        },
-        showCommonTip: {
-            type: Boolean,
-            default: false
-        },
-        tipConfig: {
-            type: Object,
-            default () {
-                return {
-                    title: '',
-                    detail: ['暂无数据'],
-                    button: []
-                };
             }
         },
         isEmpty: {
@@ -84,15 +71,12 @@ export default {
         contentHeight: {
             type: [String, Number],
             default: 0
-        },
-        excelOption: {
-            default () { return []; }
-        },
-        serviceModule: {
-            type: String,
-            default: ''
         }
     },
+    directives: {
+        Loading
+    },
+    components: { Popper, ScrollDiv },
     data () {
         return {
             up: false
@@ -103,7 +87,7 @@ export default {
             return this.formatValue(this.height);
         },
         _contentHeight () {
-            return this.contentHeight ? this.formatValue(this.contentHeight) : this.height !== 'auto' ? 'calc(100% - 49px)' : '400px';
+            return this.contentHeight ? this.formatValue(this.contentHeight) : this.height !== 'auto' ? 'calc(100% - 49px)' : 'auto';
         },
         titleTooltip () {
             return this.tooltip instanceof Array ? this.tooltip : this.tooltip ? [this.tooltip] : [];
@@ -112,7 +96,7 @@ export default {
          * 自定义的无数据的提示语
          */
         showDataTip () {
-            return this.noDataTip instanceof Array ? this.noDataTip : [this.noDataTip];
+            return this.emptyText instanceof Array ? this.emptyText : [this.emptyText];
         }
     },
     methods: {
@@ -122,18 +106,11 @@ export default {
         },
         formatValue (value) {
             return typeof value === 'number' ? `${value}px` : value;
-        },
-        async downloadExcel () {
-            try {
-                await Vue.common.axiosDownload(`/${this.serviceModule}/chart`, this.excelOption);
-            } catch (e) {
-                (e.status !== -1) && this.$Message.error((e.data && e.data.Error) || '下载excel失败，请重试');
-            }
         }
     }
 };
 </script>
 
 <style lang="scss">
-@import './customChartZoom';
+@import 'index';
 </style>

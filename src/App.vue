@@ -1,35 +1,41 @@
 <template>
   <div id="app">
-    <Scroll-Div width="400px" height="100px" padding="20px" view-class="myview">
-      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Officiis quas nobis praesentium nisi deserunt, fuga libero, error quia vero nulla corporis odio fugit atque et accusamus numquam. Tempora, qui numquam!</p>
-      <p>test测试</p>
-      <p>测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试</p>
-    </Scroll-Div>
+    <div ref="test" class="test" v-loading="loading">12313213</div>
+    <button style="margin-left: 100px" @click="hanldeClick">click me</button>
   </div>
 </template>
 
 <script>
-import ScrollDiv from '../packages/ScrollDiv';
+import Loading from '../packages/Loading';
 
 export default {
   name: 'App',
-  components: {
-    ScrollDiv
+  directives: {
+    Loading
   },
   data () {
     return {
+      loading: false
     };
+  },
+  methods: {
+    hanldeClick () {
+      this.loading = true;
+      setTimeout(() => {
+        const txt = document.createElement('span');
+        txt.innerHTML = '放辣椒放辣椒风口浪尖萨芬了看见\n放辣椒放辣椒风口浪尖萨芬了看见放辣椒放辣椒风口浪尖萨芬了看见\n放辣椒放辣椒风口浪尖萨芬了看见放辣椒放辣椒风口浪尖萨芬了看见\n放辣椒放辣椒风口浪尖萨芬了看见放辣椒放辣椒风口浪尖萨芬了看见\n放辣椒放辣椒风口浪尖萨芬了看见放辣椒放辣椒风口浪尖萨芬了看见\n放辣椒放辣椒风口浪尖萨芬了看见放辣椒放辣椒风口浪尖萨芬了看见\n放辣椒放辣椒风口浪尖萨芬了看见放辣椒放辣椒风口浪尖萨芬了看见\n放辣椒放辣椒风口浪尖萨芬了看见放辣椒放辣椒风口浪尖萨芬了看见\n放辣椒放辣椒风口浪尖萨芬了看见放辣椒放辣椒风口浪尖萨芬了看见\n放辣椒放辣椒风口浪尖萨芬了看见放辣椒放辣椒风口浪尖萨芬了看见\n放辣椒放辣椒风口浪尖萨芬了看见放辣椒放辣椒风口浪尖萨芬了看见\n放辣椒放辣椒风口浪尖萨芬了看见放辣椒放辣椒风口浪尖萨芬了看见\n放辣椒放辣椒风口浪尖萨芬了看见放辣椒放辣椒风口浪尖萨芬了看见\n放辣椒放辣椒风口浪尖萨芬了看见放辣椒放辣椒风口浪尖萨芬了看见\n放辣椒放辣椒风口浪尖萨芬了看见放辣椒放辣椒风口浪尖萨芬了看见\n放辣椒放辣椒风口浪尖萨芬了看见放辣椒放辣椒风口浪尖萨芬了看见\n放辣椒放辣椒风口浪尖萨芬了看见放辣椒放辣椒风口浪尖萨芬了看见\n放辣椒放辣椒风口浪尖萨芬了看见放辣椒放辣椒风口浪尖萨芬了看见\n放辣椒放辣椒风口浪尖萨芬了看见放辣椒放辣椒风口浪尖萨芬了看见\n放辣椒放辣椒风口浪尖萨芬了看见放辣椒放辣椒风口浪尖萨芬了看见\n放辣椒放辣椒风口浪尖萨芬了看见放辣椒放辣椒风口浪尖萨芬了看见\n放辣椒放辣椒风口浪尖萨芬了看见放辣椒放辣椒风口浪尖萨芬了看见\n放辣椒放辣椒风口浪尖萨芬了看见放辣椒放辣椒风口浪尖萨芬了看见\n放辣椒放辣椒风口浪尖萨芬了看见放辣椒放辣椒风口浪尖萨芬了看见\n放辣椒放辣椒风口浪尖萨芬了看见放辣椒放辣椒风口浪尖萨芬了看见\n放辣椒放辣椒风口浪尖萨芬了看见放辣椒放辣椒风口浪尖萨芬了看见\n放辣椒放辣椒风口浪尖萨芬了看见放辣椒放辣椒风口浪尖萨芬了看见\n放辣椒放辣椒风口浪尖萨芬了看见放辣椒放辣椒风口浪尖萨芬了看见\n放辣椒放辣椒风口浪尖萨芬了看见放辣椒放辣椒风口浪尖萨芬了看见\n放辣椒放辣椒风口浪尖萨芬了看见放辣椒放辣椒风口浪尖萨芬了看见\n放辣椒放辣椒风口浪尖萨芬了看见';
+        this.$refs.test.appendChild(txt);
+        this.loading = false;
+      }, 3000);
+    }
   }
 }
 </script>
 
 <style lang="scss">
-  body {
-    margin: 0;
-    padding-top: 24px;
-    background-color: #f5f6fa;
-  }
-  .myview {
-    background-color: #fff;
+  .test {
+    width: 100px;
+    height: 200px;
+    border: 10px solid red;
   }
 </style>

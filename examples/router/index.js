@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Test from './docs/test';
-import Index from '../examples/ScrollNav.vue';
+import ScrollDiv from '../demo/ScrollDiv.vue';
 
 Vue.use(Router);
 
@@ -9,11 +9,11 @@ const router = new Router({
     routes: [
         {
             path: '/',
-            redirect: '/first'
+            redirect: '/main'
         },
         {
-            path: '/first',
-            component: Index
+            path: '/main',
+            component: ScrollDiv
         },
         ...Test,
         { // 当任何都不匹配时，返回到首页

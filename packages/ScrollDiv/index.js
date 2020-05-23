@@ -1,11 +1,6 @@
-import Section from './src/index.vue';
+import component from './src';
+import install from '../installTemp';
 
-Section.install = (Vue) => {
-    Vue.component(Section.name, Section);
-};
+install(component);
 
-if (window && window.Vue) {
-    Section.install(window.Vue);
-}
-
-export default Section
+export default component;

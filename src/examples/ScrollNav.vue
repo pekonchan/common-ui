@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import ScrollNav from '../packages/ScrollNav';
+import ScrollNav from '../../packages/ScrollNav';
 
 export default {
   components: {

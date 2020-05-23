@@ -9,6 +9,7 @@
     "lib": "vue-cli-service build --target lib --name ComUi --dest lib packages"
   },
   "dependencies": {
+    "@popperjs/core": "^2.4.0",
     "core-js": "^3.6.4",
     "vue": "^2.6.11",
     "vue-router": "^3.1.6"

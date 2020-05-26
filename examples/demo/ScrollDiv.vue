@@ -50,12 +50,12 @@ export default {
 </script>
 
 <style lang="scss">
-  body {
-    margin: 0;
-    padding-top: 24px;
-    background-color: #f5f6fa;
-  }
-  .myview {
-    background-color: #fff;
-  }
+  // body {
+  //   margin: 0;
+  //   padding-top: 24px;
+  //   background-color: #f5f6fa;
+  // }
+  // .myview {
+  //   background-color: #fff;
+  // }
 </style>

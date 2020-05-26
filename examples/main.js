@@ -1,9 +1,8 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router';
-
-import DemoBlock from './demoBlock'
-Vue.component('demo-block', DemoBlock)
+import './common/global.scss';
+import './common/localComponents';
 
 Vue.config.productionTip = false
 

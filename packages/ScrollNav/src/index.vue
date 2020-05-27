@@ -1,8 +1,8 @@
 <template>
-    <div class="pk-scroll-nav">
-        <div class="pk-nav-bar-wrap" :style="{height: navHeight, width: navWidth}">
+    <div class="scroll-nav">
+        <div class="nav-bar-wrap" :style="{height: navHeight, width: navWidth}">
            <ul
-                class="pk-nav-bar"
+                class="nav-bar"
                 :class="{'is-fixed': navBarFixed}"
                 :style="{
                     top: navTop,
@@ -27,7 +27,7 @@
 
 <script>
 export default {
-    name: 'PkScrollNav',
+    name: 'ScrollNav',
     props: {
         // 导航栏选项
         menu: {
@@ -211,10 +211,11 @@ export default {
         /**
          * 选择标题跳到对应内容
          */
-        selectNav (nav, index) {
+        async selectNav (nav, index) {
+            this.scrollContainer.scrollTop = this.offsetTops[`content${index}`] - this.scrollDeviation;
+            await this.$nextTick();
             this.resetNavSelect();
             nav.checked = true;
-            this.scrollContainer.scrollTop = this.offsetTops[`content${index}`] - this.scrollDeviation;
         },
         resetNavSelect () {
             this.navMenu.forEach(item => {
@@ -263,7 +264,7 @@ export default {
          */
         calcTop (recalNav) {
             this.$nextTick(() => {
-                recalNav && (this.offsetTops.navBar = document.querySelector('.pk-scroll-nav .pk-nav-bar-wrap').offsetTop);
+                recalNav && (this.offsetTops.navBar = document.querySelector('.scroll-nav .nav-bar-wrap').offsetTop);
                 this.navMenu.forEach((item, index) => {
                     this.offsetTops[`content${index}`] = this.$slots.default[index].elm.offsetTop;
                 });
@@ -306,7 +307,7 @@ export default {
         validateSticky () {
             const supportStickyValue = this.isSupportSticky();
             if (supportStickyValue) {
-                const navBarWrap = document.querySelector('.pk-scroll-nav .pk-nav-bar-wrap');
+                const navBarWrap = document.querySelector('.scroll-nav .nav-bar-wrap');
                 navBarWrap.style.position = supportStickyValue;
                 navBarWrap.style.top = this.navStickyTop;
                 navBarWrap.style.left = this.navStickyLeft;

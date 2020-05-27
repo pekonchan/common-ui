@@ -3,32 +3,32 @@ const cheerio = require('cheerio')
 
 const striptags = (str, tags) => {
     const $ = cheerio.load(str, { decodeEntities: false })
-
+  
     if (!tags || tags.length === 0) {
-        return str
+      return str
     }
-
+  
     tags = !Array.isArray(tags) ? [tags] : tags
     let len = tags.length
-
+  
     while (len--) {
-        $(tags[len]).remove()
+      $(tags[len]).remove()
     }
-
+  
     return $.html()
-}
+  }
 
-const wrapCustomClass = render => {
-    (...args) => {
-        render(...args)
+const wrapCustomClass = function (render) {
+    return function (...args) {
+      return render(...args)
         .replace('<code class="', '<code class="hljs ')
         .replace('<code>', '<code class="hljs">')
     }
-}
+  }
 
-const convertHtml = str => {
-    str.replace(/(&#x)(\w{4});/gi, $0 => String.fromCharCode(parseInt(encodeURIComponent($0).replace(/(%26%23x)(\w{4})(%3B)/g, '$2'), 16)));
-}
+const convertHtml = function (str) {
+    return str.replace(/(&#x)(\w{4});/gi, $0 => String.fromCharCode(parseInt(encodeURIComponent($0).replace(/(%26%23x)(\w{4})(%3B)/g, '$2'), 16)))
+  }
 
 const vueMarkdown = {
     raw: true,

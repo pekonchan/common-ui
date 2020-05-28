@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Test from './docs/test';
-import ScrollDiv from '../demo/ScrollDiv.vue';
+import Docs from './docs';
 import Main from '@/view/main';
 
 Vue.use(Router);
@@ -17,12 +16,12 @@ const router = new Router({
             component: Main,
             children: [
                 {
-                    path: 'scroll-div',
-                    component: ScrollDiv
-                }
+                    path: '',
+                    redirect: 'scroll-div'
+                },
+                ...Docs
             ]
         },
-        ...Test,
         { // 当任何都不匹配时，返回到首页
             path: '*',
             redirect: '/main'

@@ -22,9 +22,15 @@ export default {
                 {
                     label: '自定义滚动容器',
                     path: '/main/scroll-div'
+                },
+                {
+                    label: '定位导航栏',
+                    path: '/main/scroll-nav'
                 }
             ]
         }
+    },
+    computed: {
     }
 }
 </script>

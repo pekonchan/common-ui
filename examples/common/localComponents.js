@@ -1,6 +1,6 @@
 import Vue from 'vue';
-import ScrollDiv from '~/ScrollDiv';
 import DemoBlock from './demoBlock'
+import packages from '../../packages';
 
-Vue.use(ScrollDiv);
 Vue.component('demo-block', DemoBlock);
+Vue.use(packages);

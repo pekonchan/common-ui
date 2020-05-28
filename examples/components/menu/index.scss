@@ -1,11 +1,10 @@
-@import '@/common/variable.scss';
+@import '@/common/css/variable.scss';
 
 .com-menu {
 
     .com-menu-li {
-        height: 48px;
-        line-height: 48px;
-        text-align: center;
+        padding: 16px;
+        text-align: left;
 
         a {
             text-decoration: none;

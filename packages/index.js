@@ -8,10 +8,10 @@ const components = {
     ScrollDiv
 }
 
-const install = () => {
+const install = (Vue) => {
     for (const key in components) {
-        if (components.hasOwnProporty(key)) {
-            components[key].install();
+        if (Object.prototype.hasOwnProperty.call(components, key)) {
+            components[key].install(Vue);
         }
     }
 }

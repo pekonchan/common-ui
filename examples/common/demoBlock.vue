@@ -31,6 +31,9 @@
 </script>
 
 <style lang="scss">
+  .docs-demo-wrapper {
+    margin-top: 16px;
+  }
   .demo-container {
     transition: max-height .3s ease;
     overflow: hidden;
@@ -53,10 +56,11 @@
     width: 100%;
     text-align: center;
     display: inline-block;
-    color: #C5D9E8;
+    color: #68bcfb;
     font-size: 12px;
     padding: 10px 0;
-    background-color: #FAFBFC;
+    background-color: #f4f9fe;
+    cursor: pointer;
   }
   .docs-demo__code,
   .highlight-wrapper,

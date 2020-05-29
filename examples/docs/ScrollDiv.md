@@ -1,7 +1,7 @@
 
 # Scroll-Div 自定义滚动容器
 ----
-此为`vue.js`版滚动容器组件，当需要展示滚动条是，实现与`mac os`浏览器上相类似的滚动条样式和效果，主要原因是`windows`系统上的浏览器原生滚动条样式比较丑陋
+滚动容器组件，当需要展示滚动条是，实现与`mac os`浏览器上相类似的滚动条样式和效果，主要原因是`windows`系统上的浏览器原生滚动条样式比较丑陋
 
 可用该组件替代类似`div`等容器使用，该组件的滚动条样式是类`mac os`风格。
 
@@ -18,9 +18,15 @@
 
 想了解其中的自定义核心思路，可阅读我的文章[自定义滚动条全面方案详解](https://juejin.im/post/5e93d6736fb9a03c320bb36e)
 
-### 基本用法
+## 基本用法
+<style>
+    .yourclassname {
+        margin: auto;
+    }
+</style>
 <div class="demo-block">
     <Scroll-Div width="400px" height="100px" view-class="yourclassname">
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Officiis quas nobis praesentium nisi deserunt, fuga libero, error quia vero nulla corporis odio fugit atque et accusamus numquam. Tempora, qui numquam!
         Lorem ipsum dolor, sit amet consectetur adipisicing elit. Officiis quas nobis praesentium nisi deserunt, fuga libero, error quia vero nulla corporis odio fugit atque et accusamus numquam. Tempora, qui numquam!
     </Scroll-Div>
 </div>
@@ -30,7 +36,14 @@
 
 <Scroll-Div width="400px" height="100px" view-class="yourclassname">
     Lorem ipsum dolor, sit amet consectetur adipisicing elit. Officiis quas nobis praesentium nisi deserunt, fuga libero, error quia vero nulla corporis odio fugit atque et accusamus numquam. Tempora, qui numquam!
+    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Officiis quas nobis praesentium nisi deserunt, fuga libero, error quia vero nulla corporis odio fugit atque et accusamus numquam. Tempora, qui numquam!
 </Scroll-Div>
+
+<style>
+    .yourclassname {
+        margin: auto;
+    }
+</style>
 
 ```
 :::

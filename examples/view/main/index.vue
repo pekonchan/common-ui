@@ -4,7 +4,7 @@
             logo
         </header>
         <Scroll-Div view-class="main-side">
-            <Menu :option="menus"></Menu>
+            <Menu :option="menus" :active="$route.path"></Menu>
         </Scroll-Div>
         <Scroll-Div view-class="main-body">
             <router-view></router-view>

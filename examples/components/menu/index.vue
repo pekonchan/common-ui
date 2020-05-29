@@ -1,8 +1,8 @@
 <template>
     <ul class="com-menu">
-        <li v-for="menu in menuOption" :key="menu.path" class="com-menu-li" :class="{'is-active': menu.active}">
+        <li v-for="menu in menuOption" :key="menu.path" class="com-menu-li" :class="{'is-active': currentPath === menu.path}">
             <ul v-if="menu.children && menu.children.length > 0" class="com-sub-menu">
-                <li v-for="subMenu in menu.children" :key="subMenu.path" class="com-menu-li" :class="{'is-active': subMenu.active}">
+                <li v-for="subMenu in menu.children" :key="subMenu.path" class="com-menu-li" :class="{'is-active': currentPath === subMenu.path}">
                     <a :href="urlMode + subMenu.path" @click="activePath(subMenu, menu.children)">{{subMenu.label}}</a>
                 </li>
             </ul>
@@ -21,11 +21,16 @@ export default {
         history: {
             type: Boolean,
             default: false
+        },
+        active: {
+            type: String,
+            default: ''
         }
     },
     data () {
         return {
-            menuOption: []
+            menuOption: [],
+            currentPath: ''
         };
     },
     watch: {
@@ -44,6 +49,12 @@ export default {
             },
             immediate: true,
             deep: true
+        },
+        active: {
+            handler (newValue) {
+                this.currentPath = newValue;
+            },
+            immediate: true
         }
     },
     computed: {
@@ -52,11 +63,12 @@ export default {
         }
     },
     methods: {
-        activePath (menu, option) {
-            option.forEach(item => {
-                item.active = false;
-            });
-            menu.active = true;
+        activePath (menu) {
+            // option.forEach(item => {
+            //     item.active = false;
+            // });
+            // menu.active = true;
+            this.currentPath = menu.path;
         }
     }
 }

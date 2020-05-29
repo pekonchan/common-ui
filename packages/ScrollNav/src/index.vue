@@ -1,8 +1,7 @@
 <template>
-    <div class="scroll-nav">
-        <div class="nav-bar-wrap" :style="{height: navHeight, width: navWidth}">
+    <div class="com-scroll-nav">
+        <div class="js-com-scroll-nav__wrap" :style="{height: navHeight, width: navWidth}">
            <ul
-                class="nav-bar"
                 :class="{'is-fixed': navBarFixed}"
                 :style="{
                     top: navTop,
@@ -15,6 +14,7 @@
                 <li
                     v-for="(item, index) in navMenu"
                     :key="item.value"
+                    class="com-scroll-nav__li"
                     :style="{color: getNavColor(item), borderBottomColor: getNavColor(item, 'border')}"
                     @click="selectNav(item, index)">
                     {{item.label}}
@@ -27,7 +27,7 @@
 
 <script>
 export default {
-    name: 'ScrollNav',
+    name: 'ComScrollNav',
     props: {
         // 导航栏选项
         menu: {
@@ -264,7 +264,7 @@ export default {
          */
         calcTop (recalNav) {
             this.$nextTick(() => {
-                recalNav && (this.offsetTops.navBar = document.querySelector('.scroll-nav .nav-bar-wrap').offsetTop);
+                recalNav && (this.offsetTops.navBar = document.querySelector('.com-scroll-nav .js-com-scroll-nav__wrap').offsetTop);
                 this.navMenu.forEach((item, index) => {
                     this.offsetTops[`content${index}`] = this.$slots.default[index].elm.offsetTop;
                 });
@@ -307,7 +307,7 @@ export default {
         validateSticky () {
             const supportStickyValue = this.isSupportSticky();
             if (supportStickyValue) {
-                const navBarWrap = document.querySelector('.scroll-nav .nav-bar-wrap');
+                const navBarWrap = document.querySelector('.com-scroll-nav .js-com-scroll-nav__wrap');
                 navBarWrap.style.position = supportStickyValue;
                 navBarWrap.style.top = this.navStickyTop;
                 navBarWrap.style.left = this.navStickyLeft;

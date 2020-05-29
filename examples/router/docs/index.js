@@ -12,6 +12,11 @@ const routes = [
         path: 'scroll-nav',
         name: 'scrollNav',
         component: () => import(/* webpackChunkName: 'docs' */ '@/docs/ScrollNav.md')
+    },
+    {
+        path: 'gstest',
+        name: 'gstest',
+        component: () => import(/* webpackChunkName: 'docs' */ '@/docs/gstest.md')
     }
 ];
 

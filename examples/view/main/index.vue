@@ -7,13 +7,15 @@
             <Menu :option="menus" :active="$route.path"></Menu>
         </Scroll-Div>
         <Scroll-Div view-class="main-body">
-            <router-view></router-view>
+            <router-view class="markdown-body"></router-view>
         </Scroll-Div>
     </div>
 </template>
 
 <script>
 import Menu from '@/components/menu';
+import 'highlight.js/styles/color-brewer.css';
+import '@/common/css/github-markdown.css';
 export default {
     components: { Menu },
     data () {

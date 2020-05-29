@@ -1,5 +1,6 @@
+@import '@/common/css/variable.scss';
+
 .main-view {
-    $HEADER-HEIGHT: 65px;
     position: relative;
     padding-top: $HEADER-HEIGHT;
     height: 100%;
@@ -31,5 +32,9 @@
         width: calc(100% - 150px);
         height: calc(100% - #{$HEADER-HEIGHT});
         line-height: 2;
+
+        .header-anchor {
+            color: #2accf3;
+        }
     }
 }

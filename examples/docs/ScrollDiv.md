@@ -1,5 +1,5 @@
 
-# Scroll-Div 自定义滚动容器
+# scroll-div 自定义滚动容器
 
 滚动容器组件，当需要展示滚动条是，实现与`mac os`浏览器上相类似的滚动条样式和效果，主要原因是`windows`系统上的浏览器原生滚动条样式比较丑陋
 
@@ -24,10 +24,10 @@
 ::: demo
 ```html
 
-<Scroll-Div width="400px" height="100px" view-class="yourclassname">
+<com-scroll-div width="400px" height="100px" view-class="yourclassname">
     Lorem ipsum dolor, sit amet consectetur adipisicing elit. Officiis quas nobis praesentium nisi deserunt, fuga libero, error quia vero nulla corporis odio fugit atque et accusamus numquam. Tempora, qui numquam!
     Lorem ipsum dolor, sit amet consectetur adipisicing elit. Officiis quas nobis praesentium nisi deserunt, fuga libero, error quia vero nulla corporis odio fugit atque et accusamus numquam. Tempora, qui numquam!
-</Scroll-Div>
+</com-scroll-div>
 
 <style>
     .yourclassname {
@@ -38,3 +38,13 @@
 ```
 :::
 
+
+### Props
+
+| 参数 | 说明 | 类型 | 可选值 | 默认值 | 是否必填 |
+| ---- | -------------- | ------ |------- | -------- | --- |
+| height | 容器高度 | String, Number. 传入数字类型时，单位是`px` | — | — | no |
+| width | 容器宽度 | String, Number. 传入数字类型时，单位是`px` | — | — | no |
+| padding | 容器的内边距 | String | — | — | no |
+| useNative | 针对滚动条区域占用内容本身空间的浏览器（如window系统上绝大多数浏览器），<br>如果浏览器是webkit内核，则可以用css样式改变原生滚动条样式。<br>如果该值设置为true，则启用css改变滚动条样式，否则，用自定义滚动条。建议开启该项，能改善性能和减少dom结构。 | Boolan | true/false | true | no |
+| viewClass | 内容容器设置类名。建议除width,height,padding属性外，使用该值指定类名进行样式修改。 | String | — | — | no |

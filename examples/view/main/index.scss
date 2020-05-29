@@ -33,8 +33,14 @@
         height: calc(100% - #{$HEADER-HEIGHT});
         line-height: 2;
 
-        .header-anchor {
-            color: #2accf3;
+        .markdown-body {
+            .header-anchor {
+                color: #2accf3;
+            }
+    
+            table td {
+                min-width: 85px;
+            }
         }
     }
 }

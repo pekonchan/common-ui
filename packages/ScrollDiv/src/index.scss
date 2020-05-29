@@ -1,4 +1,4 @@
-.scroll-div {
+.com-scroll-div {
     position: relative;
     display: inline-block;
     user-select: none;
@@ -6,7 +6,7 @@
         display: block;
         overflow: auto;
     }
-    .scroll-div-view {
+    &__view {
         height: 100%;
         overflow: scroll;
     }
@@ -15,13 +15,13 @@
         opacity: 1;
         transition: opacity 0s ease 0s;
     }
-    .scroll-div-y {
+    .js-com-scroll-div__y {
         position: absolute;
         right: 1px;
         top: 0;
         height: 100%;
         width: 7px;
-        .scroll-div-y-bar {
+        .js-y-bar {
             width: 7px;
             border-radius: 7px;
             background-color:rgba(0, 0, 0, .5);
@@ -32,13 +32,13 @@
             }
         }
     }
-    .scroll-div-x {
+    .js-com-scroll-div__x {
         position: absolute;
         bottom: 1px;
         left: 0;
         width: 100%;
         height: 7px;
-        .scroll-div-x-bar {
+        .js-x-bar {
             height: 7px;
             border-radius: 7px;
             background-color:rgba(0, 0, 0, .5);
@@ -50,12 +50,16 @@
         }
     }
 
-    &.is-scroll-native::-webkit-scrollbar {
+    &.com-scroll-div--native::-webkit-scrollbar {
         width: 7px;
         height: 7px;
     }
-    &.is-scroll-native::-webkit-scrollbar-thumb {
+    &.com-scroll-div--native::-webkit-scrollbar-thumb {
         border-radius: 7px;
-        background: rgba(0, 0, 0, .5);
+        background: rgba(144,147,153,.5);
+
+        &:hover {
+            background: rgba(144,147,153,1);
+        }
     }
 }

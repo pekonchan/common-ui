@@ -1,21 +1,21 @@
 <template>
     <div
-        class="scroll-div"
-        :class="{'is-scroll-native': isSurportNative, 'is-native-div': !needCustom, [viewClass]: !needCustom}"
+        class="com-scroll-div"
+        :class="{'com-scroll-div--native': isSurportNative, 'is-native-div': !needCustom, [viewClass]: !needCustom}"
         :style="divStyle">
         <div
             v-if="needCustom"
             ref="scrollDivView"
-            class="scroll-div-view"
+            class="com-scroll-div__view"
             :class="{[viewClass]: needCustom}"
             :style="viewStyle">
             <slot></slot>
         </div>
-        <div v-if="needCustom" ref="scrollY" class="scroll-div-y">
-            <div ref="scrollYBar" class="scroll-div-y-bar" :class="{'is-show': showScrollY}"></div>
+        <div v-if="needCustom" ref="scrollY" class="js-com-scroll-div__y">
+            <div ref="scrollYBar" class="js-y-bar" :class="{'is-show': showScrollY}"></div>
         </div>
-        <div v-if="needCustom" ref="scrollX" class="scroll-div-x">
-            <div ref="scrollXBar" class="scroll-div-x-bar" :class="{'is-show': showScrollX}"></div>
+        <div v-if="needCustom" ref="scrollX" class="js-com-scroll-div__x">
+            <div ref="scrollXBar" class="js-x-bar" :class="{'is-show': showScrollX}"></div>
         </div>
         <slot v-if="!needCustom"></slot>
     </div>
@@ -23,7 +23,7 @@
 
 <script>
 export default {
-    name: 'ScrollDiv',
+    name: 'ComScrollDiv',
     props: {
         height: {
             type: [Number, String],
@@ -138,7 +138,7 @@ export default {
         clickStart (el) {
             const e = el || event;
             const target = e.target || e.srcElement;
-            if (/scroll-div-y-bar/.test(target.className)) {
+            if (/js-y-bar/.test(target.className)) {
                 this.startY = e.pageY;
                 this.distanceY = this.scrollContainer.scrollTop;
                 this.scrollY.removeEventListener('mouseout', this.hoverOutSroll);
@@ -200,7 +200,7 @@ export default {
         hoverOutSroll (el) {
             const e = el || event;
             const target = e.target || e.srcElement;
-            if (/(scroll-div-y)|(scroll-div-y-bar)/.test(target.className)) {
+            if (/(js-com-scroll-div__y)|(js-y-bar)/.test(target.className)) {
                 this.showScrollY = false;
                 this.scrollYBar.removeEventListener('mousedown', this.clickStart);
                 this.scrollY.removeEventListener('mouseout', this.hoverOutSroll);

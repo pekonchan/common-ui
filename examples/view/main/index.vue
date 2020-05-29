@@ -3,12 +3,12 @@
         <header class="main-view-header">
             logo
         </header>
-        <Scroll-Div view-class="main-side">
+        <com-scroll-div view-class="main-side">
             <Menu :option="menus" :active="$route.path"></Menu>
-        </Scroll-Div>
-        <Scroll-Div view-class="main-body">
+        </com-scroll-div>
+        <com-scroll-div view-class="main-body">
             <router-view class="markdown-body"></router-view>
-        </Scroll-Div>
+        </com-scroll-div>
     </div>
 </template>
 

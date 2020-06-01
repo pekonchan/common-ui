@@ -32,6 +32,10 @@ export default {
                 {
                     label: '头像',
                     path: '/main/avatar'
+                },
+                {
+                    label: '复选框',
+                    path: '/main/checkbox'
                 }
             ]
         }

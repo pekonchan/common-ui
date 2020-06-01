@@ -1,14 +1,15 @@
 <template>
-    <label class="custom-checkbox" :class="{'is-disabled': disabled}">
-        <span class="custom-checkbox-outlook" :class="{'is-checked': checked}">
+    <label class="com-checkbox" :class="{'is-disabled': disabled}">
+        <span class="com-checkbox__outlook" :class="{'is-checked': checked}">
         </span>
-        <input class="custom-checkbox-input" type="checkbox" v-model="checked" :disabled="disabled" @change="$emit('change', checked)" />
+        <input class="com-checkbox__input" type="checkbox" v-model="checked" :disabled="disabled" @change="$emit('change', checked)" />
         <slot></slot>
     </label>
 </template>
 
 <script>
 export default {
+    name: 'ComCheckbox',
     props: {
         value: {
             type: Boolean,

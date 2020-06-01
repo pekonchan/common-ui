@@ -1,11 +1,13 @@
 import ScrollNav from './ScrollNav';
 import Avatar from './Avatar';
 import ScrollDiv from './ScrollDiv';
+import Checkbox from './Checkbox';
 
 const components = {
     ScrollNav,
     Avatar,
-    ScrollDiv
+    ScrollDiv,
+    Checkbox
 }
 
 const install = (Vue) => {

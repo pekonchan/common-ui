@@ -17,6 +17,11 @@ const routes = [
         path: 'avatar',
         name: 'avatar',
         component: () => import(/* webpackChunkName: 'docs' */ '@/docs/Avatar.md')
+    },
+    {
+        path: 'checkbox',
+        name: 'checkbox',
+        component: () => import(/* webpackChunkName: 'docs' */ '@/docs/Checkbox.md')
     }
 ];
 

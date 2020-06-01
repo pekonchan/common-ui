@@ -12,23 +12,60 @@
 
 ## 代码演示
 
+<script>
+    export default {
+        data () {
+            return {
+                menus: [
+                    { label: '导航1', checked: true },
+                    { label: '导航2' },
+                    { label: '导航3' }
+                ]
+            }
+        }
+    }
+</script>
+
 ::: demo
 ```html
 
-<com-scroll-nav
-    ref="scrollNav"
-    :menu="[
-        { label: '导航1', checked: true },
-        { label: '导航2' },
-        { label: '导航3' }
-    ]"
-    :height="52"
-    relativeName="html">
-    <div>导航1内容</div>
-    <div>导航2内容</div>
-    <div>导航3内容</div>
-</com-scroll-nav>
+<div class="example-container">
+    <com-scroll-nav
+        ref="scrollNav"
+        :menu="menus"
+        :extraFixed="-17"
+        relative-name=".example-container">
+        <div class="content">导航1内容</div>
+        <div class="content">导航2内容</div>
+        <div class="content">导航3内容</div>
+    </com-scroll-nav>
+</div>
 
+<style>
+    .example-container {
+        height: 300px;
+        overflow: auto;
+    }
+    .content {
+        height: 200px;
+    }
+</style>
+
+```
+```js
+<script>
+    export default {
+        data () {
+            return {
+                menus: [
+                    { label: '导航1', checked: true },
+                    { label: '导航2' },
+                    { label: '导航3' }
+                ]
+            }
+        }
+    }
+</script>
 ```
 :::
 

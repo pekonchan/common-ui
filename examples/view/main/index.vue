@@ -28,6 +28,10 @@ export default {
                 {
                     label: '定位导航栏',
                     path: '/main/scroll-nav'
+                },
+                {
+                    label: '头像',
+                    path: '/main/avatar'
                 }
             ]
         }

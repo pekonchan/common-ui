@@ -14,9 +14,9 @@ const routes = [
         component: () => import(/* webpackChunkName: 'docs' */ '@/docs/ScrollNav.md')
     },
     {
-        path: 'gstest',
-        name: 'gstest',
-        component: () => import(/* webpackChunkName: 'docs' */ '@/docs/gstest.md')
+        path: 'avatar',
+        name: 'avatar',
+        component: () => import(/* webpackChunkName: 'docs' */ '@/docs/Avatar.md')
     }
 ];
 

@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import util from '~/util';
 export default {
     name: 'ComScrollDiv',
     props: {
@@ -70,10 +71,10 @@ export default {
     },
     computed: {
         viewHeight () {
-            return this.formatValue(this.height);
+            return util.transPropsValue(this.height);
         },
         viewWidth () {
-            return this.formatValue(this.width);
+            return util.transPropsValue(this.width);
         },
         divStyle () {
             if (this.needCustom) {
@@ -95,9 +96,6 @@ export default {
         }
     },
     methods: {
-        formatValue (value) {
-            return typeof value === 'number' ? `${value}px` : value;
-        },
         handleScroll (el) {
             const e = el || event;
             const target = e.target || e.srcElement;

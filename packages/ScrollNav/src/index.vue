@@ -15,7 +15,7 @@
                     v-for="(item, index) in navMenu"
                     :key="item.value"
                     class="com-scroll-nav__li"
-                    :style="{color: getNavColor(item), borderBottomColor: getNavColor(item, 'border')}"
+                    :style="item.checked ? isActive : notActive"
                     @click="selectNav(item, index)">
                     {{item.label}}
                 </li>
@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import util from '~/util';
 export default {
     name: 'ComScrollNav',
     props: {
@@ -133,63 +134,75 @@ export default {
             navBarFixed: false, // 导航栏是否被固定了
             scrollContainer: null, // 滚动条所在容器
             fixedHeightPx: 0, // 导航栏固定后的实际高度px值
-            canUseSticky: false
+            canUseSticky: false,
+            notActive: {
+                color: 'inherit',
+                borderBottomColor: 'transparent'
+            },
+            navMenu: []
         };
     },
+    watch: {
+        menu: {
+            handler (newValue) {
+                this.navMenu = newValue.map(item => {
+                    return {
+                        label: item.label,
+                        checked: item.checked || false
+                    }
+                })
+            },
+            immediate: true,
+            deep: true
+        }
+    },
     computed: {
-        // 如果用户导航栏选项未传checked，那么默认把checked置为false
-        navMenu () {
-            return this.menu.map(item => {
-                this.$set(item, 'checked', item.checked || false);
-                return item;
-            });
-        },
         // 主要是未固定前的导航栏的高度
         navHeight () {
-            return this.createValue(this.height);
+            return util.transPropsValue(this.height);
         },
         // 主要是未固定前的导航栏的宽度
         navWidth () {
-            return this.createValue(this.width);
+            return util.transPropsValue(this.width);
         },
         // 导航栏固定之后的高度，如果没有设置指定高度，那么默认是用未固定前的导航栏height
         navFixedHeight () {
             const height = this.fixedHeight ? this.fixedHeight : this.height;
-            return this.createValue(height);
+            return util.transPropsValue(height);
         },
         // 导航栏固定之后的宽度，如果没有设置指定宽度，那么默认是用未固定前的导航栏width
         navFixedWidth () {
             const width = this.fixedWidth ? this.fixedWidth : this.width;
-            return this.createValue(width);
+            return util.transPropsValue(width);
         },
         navTop () {
-            return this.createValue(this.top);
+            return util.transPropsValue(this.top);
         },
         navLeft () {
-            return this.createValue(this.left);
+            return util.transPropsValue(this.left);
         },
         navBottom () {
-            return this.createValue(this.bottom);
+            return util.transPropsValue(this.bottom);
         },
         navRight () {
-            return this.createValue(this.right);
+            return util.transPropsValue(this.right);
         },
         // 采用sticky方式固定的，如果没设置stickyTop，默认采用top
         navStickyTop () {
             const value = this.stickyTop ? this.stickyTop : this.top;
-            return this.createValue(value);
+            return util.transPropsValue(value);
         },
         navStickyLeft () {
             const value = this.stickyLeft ? this.stickyLeft : this.left;
-            return this.createValue(value);
+            return util.transPropsValue(value);
         },
         navStickyRight () {
             const value = this.stickyRight ? this.stickyRight : this.right;
-            return this.createValue(value);
+            return util.transPropsValue(value);
         },
         navStickyBottom () {
             const value = this.stickyBottom ? this.stickyBottom : this.bottom;
-            return this.createValue(value);
+            return util.transPropsValue(value);
         },
         // 根据是否需要导航栏固定的条件下，区分生成滚动导航的偏差值，如果没设置extraScroll，默认用extraFixed
         scrollDeviation () {
@@ -199,15 +212,15 @@ export default {
         // 绑定滚动事件的元素对象
         scrollTarget () {
             return this.relativeName.toLowerCase() === 'html' ? window : this.scrollContainer;
+        },
+        isActive () {
+            return {
+                color: this.color,
+                borderBottomColor: this.color
+            };
         }
     },
     methods: {
-        createValue (value) {
-            return typeof value === 'number' ? `${value}px` : value;
-        },
-        getNavColor (nav, type) {
-            return nav.checked ? this.color : type === 'border' ? 'transparent' : 'inherit';
-        },
         /**
          * 选择标题跳到对应内容
          */

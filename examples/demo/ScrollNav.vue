@@ -1,28 +1,24 @@
 <template>
   <div id="app">
     <div class="top-section"></div>
-    <Scroll-Nav
+    <com-scroll-nav
       ref="scrollNav"
       :menu="navs"
       :height="52"
       :extraFixed="-24"
-      relativeName="html">
+      relative-name="html">
       <div class="content">导航1内容</div>
       <div class="content">导航2内容</div>
       <div class="content">导航3内容</div>
       <div class="content">导航4内容</div>
-    </Scroll-Nav>
+    </com-scroll-nav>
   </div>
 </template>
 
 <script>
-import ScrollNav from '../packages';
 
 export default {
   name: 'App',
-  components: {
-    ScrollNav
-  },
   data () {
     return {
       navs: [

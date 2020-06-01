@@ -36,6 +36,10 @@ export default {
                 {
                     label: '复选框',
                     path: '/main/checkbox'
+                },
+                {
+                    label: 'Popper浮窗',
+                    path: '/main/popper'
                 }
             ]
         }

@@ -1,9 +1,9 @@
 <template>
-    <span class="mine-popper" @click.stop>
-        <span class="mine-popper-link"><slot name="reference"></slot></span>
-        <div class="mine-popper-tooltip" role="tooltip">
+    <span class="com-popper" @click.stop>
+        <span class="js-com-popper__link"><slot name="reference"></slot></span>
+        <div :class="['js-com-popper__tooltip', {'is-show': visible}]" role="tooltip">
             <slot></slot>
-            <div v-if="arrow" class="mine-popper-arrow" data-popper-arrow></div>
+            <div v-if="arrow" class="com-popper__arrow" data-popper-arrow></div>
         </div>
     </span>
 </template>
@@ -11,6 +11,7 @@
 <script>
 import { createPopper } from '@popperjs/core';
 export default {
+    name: 'ComPopper',
     props: {
         placement: {
             type: String,
@@ -65,23 +66,22 @@ export default {
          * @param {Boolean} isValueChange - 是否是代码改变value值触发的显示
          */
         show (isValueChange) {
+            // 点击js-com-popper__link元素，可以实现类似toggle功能，打开了再点一下就关闭了
             if (this.visible && !isValueChange) {
                 this.hide();
                 return;
             }
-            this.tooltip.setAttribute('data-show', '');
+            // this.tooltip.setAttribute('data-show', '');
+            this.visible = true;
+            this.$emit('change', true);
             this.create();
-            if (isValueChange) {
-                this.visible = true;
-                this.$emit('change', true);
-            }
         },
         /**
          * 隐藏popper时
          * @param {Boolean} isValueChange - 是否是代码改变value值触发的隐藏
          */
         hide (isValueChange) {
-            this.tooltip.removeAttribute('data-show');
+            // this.tooltip.removeAttribute('data-show');
             this.destroy();
             if (isValueChange) {
                 this.visible = false;
@@ -109,8 +109,8 @@ export default {
         }
     },
     mounted () {
-        this.popperLink = document.querySelector('.mine-popper-link');
-        this.tooltip = document.querySelector('.mine-popper-tooltip');
+        this.popperLink = document.querySelector('.js-com-popper__link');
+        this.tooltip = document.querySelector('.js-com-popper__tooltip');
         this.showEvents.forEach(event => {
             this.popperLink.addEventListener(event, this.show);
         });
@@ -118,7 +118,7 @@ export default {
             this.popperLink.addEventListener(event, this.hide);
         });
         if (this.trigger === 'click' && this.isHiddenOut) {
-            document.querySelector('body').addEventListener('click', this.hide);
+            document.body.addEventListener('click', this.hide);
         }
     },
     destroyed () {
@@ -129,7 +129,7 @@ export default {
             this.popperLink.removeEventListener(event, this.hide);
         });
         if (this.trigger === 'click' && this.isHiddenOut) {
-            document.querySelector('body').removeEventListener('click', this.hide);
+            document.body.removeEventListener('click', this.hide);
         }
     }
 };

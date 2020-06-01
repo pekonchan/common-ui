@@ -1,0 +1,41 @@
+.com-popper {
+    .js-com-popper__link {
+        cursor: pointer;
+        user-select: none;
+    }
+    .js-com-popper__tooltip {
+        display: none;
+        color: #323232;
+        padding: 16px;
+        font-size: 12px;
+        background: #FFFFFF;
+        border: 1px solid #D9D9D9;
+        border-radius: 2px;
+        &.is-show {
+            display: block;
+        }
+        &[data-popper-placement^='top'] > .com-popper__arrow {
+            bottom: -4px;
+        }
+        &[data-popper-placement^='bottom'] > .com-popper__arrow {
+            bottom: -4px;
+        }
+        &[data-popper-placement^='left'] > .com-popper__arrow {
+            bottom: -4px;
+        }
+        &[data-popper-placement^='right'] > .com-popper__arrow {
+            bottom: -4px;
+        }
+    }
+    &__arrow, &__arrow::before {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        z-index: -1;
+    }
+    &__arrow::before {
+        content: '';
+        transform: rotate(45deg);
+        background: #FFFFFF;
+    }
+}

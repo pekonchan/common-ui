@@ -22,6 +22,11 @@ const routes = [
         path: 'checkbox',
         name: 'checkbox',
         component: () => import(/* webpackChunkName: 'docs' */ '@/docs/Checkbox.md')
+    },
+    {
+        path: 'popper',
+        name: 'popper',
+        component: () => import(/* webpackChunkName: 'docs' */ '@/docs/Popper.md')
     }
 ];
 

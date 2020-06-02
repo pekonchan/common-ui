@@ -40,6 +40,10 @@ export default {
                 {
                     label: 'Popper浮窗',
                     path: '/main/popper'
+                },
+                {
+                    label: 'Loading',
+                    path: '/main/loading'
                 }
             ]
         }

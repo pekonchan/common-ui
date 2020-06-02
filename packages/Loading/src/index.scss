@@ -1,5 +1,5 @@
 $SIZE: 30px;
-.com-loading-mask {
+.com-loading__mask {
     position: absolute;
     top: 0;
     left: 0;
@@ -11,18 +11,18 @@ $SIZE: 30px;
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
-    }
-}
 
-.com-icon-loading {
-    display: block;
-    color: #3dbef8;
-    font-size: $SIZE;
-    width: $SIZE;
-    height: $SIZE;
-    border-radius: 50%;
-    transform: translateZ(0);
-    animation: loading 1.7s infinite ease;
+        &__icon {
+            display: block;
+            color: #3dbef8;
+            font-size: $SIZE;
+            width: $SIZE;
+            height: $SIZE;
+            border-radius: 50%;
+            transform: translateZ(0);
+            animation: loading 1.7s infinite ease;
+        }
+    }
 }
 
 @keyframes loading {

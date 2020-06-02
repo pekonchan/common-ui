@@ -3,13 +3,15 @@ import Avatar from './Avatar';
 import ScrollDiv from './ScrollDiv';
 import Checkbox from './Checkbox';
 import Popper from './Popper';
+import Loading from './Loading';
 
 const components = {
     ScrollNav,
     Avatar,
     ScrollDiv,
     Checkbox,
-    Popper
+    Popper,
+    Loading
 }
 
 const install = (Vue) => {

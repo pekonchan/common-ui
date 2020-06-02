@@ -1,21 +1,22 @@
 require('./index.scss');
-const mask = document.createElement('div');
-const loading = document.createElement('div');
+
 const changeLoading = (el, binding) => {
     const width = el.clientWidth;
+    console.log('changeLoading -> width', width);
     const height = el.clientHeight;
-    if (binding.oldValue === 'undefined' || binding.value !== binding.oldValue) {
-        mask.style.cssText += `width: ${width}px; height: ${height}px`;
-        mask.style.display = binding.value ? 'block': 'none';
-    }
+    const mask = el.querySelector('.com-loading__mask');
+    mask.style.cssText += `width: ${width}px; height: ${height}px`;
+    mask.style.display = binding.value ? 'block': 'none';
 }
 export default {
     name: 'loading',
     bind (el) {
+        const mask = document.createElement('div');
+        const loading = document.createElement('div');
         el.style.position = 'relative';
-        mask.className = 'com-loading-mask';
+        mask.className = 'com-loading__mask';
         loading.className = 'com-loading';
-        loading.innerHTML = '<i class="com-icon-loading"></i>';
+        loading.innerHTML = '<i class="com-loading__icon"></i>';
         mask.appendChild(loading);
         el.appendChild(mask);
     },

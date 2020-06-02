@@ -27,6 +27,11 @@ const routes = [
         path: 'popper',
         name: 'popper',
         component: () => import(/* webpackChunkName: 'docs' */ '@/docs/Popper.md')
+    },
+    {
+        path: 'loading',
+        name: 'loading',
+        component: () => import(/* webpackChunkName: 'docs' */ '@/docs/Loading.md')
     }
 ];
 

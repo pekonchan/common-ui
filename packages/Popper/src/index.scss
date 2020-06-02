@@ -1,9 +1,9 @@
 .com-popper {
-    .js-com-popper__link {
+    &__link {
         cursor: pointer;
         user-select: none;
     }
-    .js-com-popper__tooltip {
+    &__tooltip {
         display: none;
         color: #323232;
         padding: 16px;

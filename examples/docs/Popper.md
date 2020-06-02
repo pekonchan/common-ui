@@ -24,10 +24,17 @@
 :::
 
 ### 选择触发popper方式
+设置`arrow`属性控制是否显示箭头， 设置`canEnter`可控制鼠标能否进入浮窗内容区，仅`trigger: hover`时有效。
+
+<style>
+    .com-popper + .com-popper {
+        margin-left: 16px;
+    }
+</style>
 
 ::: demo
 ```html
-<com-popper trigger="hover">
+<com-popper trigger="hover" :arrow="true" :canEnter="false">
     <template v-slot:reference>悬浮显示浮窗</template>
     这是浮窗的内容
 </com-popper>
@@ -37,12 +44,23 @@
     这是浮窗的内容
 </com-popper>
 ```
+:::
+
+### 可以代码控制popper的状态
+
+::: demo
+```html
+<com-popper v-model="value2">
+    <template v-slot:reference>悬浮显示浮窗</template>
+    这是浮窗的内容
+</com-popper>
+```
 ```js
 <script>
     export default {
         data () {
             return {
-                value2: true
+                value1: true
             }
         }
     }

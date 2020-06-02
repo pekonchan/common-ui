@@ -1,7 +1,6 @@
 .com-scroll-div {
     position: relative;
     display: inline-block;
-    user-select: none;
     &.is-native-div {
         display: block;
         overflow: auto;

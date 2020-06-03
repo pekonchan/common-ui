@@ -1,7 +1,7 @@
 <template>
     <span class="com-tooltip" @click.stop>
         <span ref="tooltipLink" class="com-tooltip__link"><slot></slot></span>
-        <div ref="tooltipContent" :class="['com-tooltip__content', {'is-show': visible}]" role="tooltip">
+        <div ref="tooltipContent" :class="['com-tooltip__content', {'is-show': visible}, popperClass]" role="tooltip">
             <p v-for="text in tooltipText" :key="text" class="com-tooltip__text">{{text}}</p>
             <div class="com-tooltip__arrow" data-popper-arrow></div>
         </div>
@@ -33,6 +33,10 @@ export default {
         },
         content: {
             type: [String, Array],
+            default: ''
+        },
+        popperClass: {
+            type: String,
             default: ''
         }
     },

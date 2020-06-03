@@ -1,46 +1,35 @@
 <template>
     <div v-loading="loading" class="com-zoom" :class="{'is-up': up}" :style="{height: up ? '100%' : boxtHeight}">
-        <div class="com-zoom-header">
+        <div class="com-zoom__header">
             <h1>{{title}}</h1>
-            <Popper v-if="titleTooltip.length > 0" class="com-zoom-tooltip">
-                <template v-slot:reference>
-                    <i class="iconfont icon-shuomingtishi">?</i>
-                </template>
-                <p v-for="item in titleTooltip" :key="item">{{item}}</p>
-            </Popper>
-            <!-- <gs-tooltip
-                v-if="titleTooltip.length > 0"
-                placement="bottom"
-                popper-class="zoom-box-tooltip">
+            <com-tooltip v-if="titleTooltip.length > 0" :content="titleTooltip" popper-class="com-zoom__tooltip">
                 <i class="iconfont icon-shuomingtishi"></i>
-                <template v-slot:template>
-                    <p v-for="item in titleTooltip" :key="item">{{item}}</p>
-                </template>
-            </gs-tooltip> -->
+            </com-tooltip>
         </div>
-        <div class="com-zoom-body">
-            <div v-if="!isEmpty" class="com-zoom-feature">
+        <div class="com-zoom__body">
+            <div v-if="!isEmpty" class="com-zoom__feature">
                 <slot name="boxFeauter"></slot>
                 <i :class="['iconfont', up ? 'icon-suoxiaotubiao-' : 'icon-fangda1']" @click="handleUp"></i>
             </div>
-            <Scroll-Div class="com-zoom-scroll" :height="up ? '85%' : _contentHeight">
-                <div v-if="!isEmpty" class="com-zoom-content">
+            <com-scroll-div view-class="com-zoom__scroll" :height="up ? '85%' : _contentHeight">
+                <div v-if="!isEmpty" class="com-zoom__content">
                     <slot></slot>
                 </div>
-                <div class="com-zoom-empty" v-else>
+                <div class="com-zoom__empty" v-else>
                     <p v-for="item in showDataTip" :key="item">{{item}}</p>
                 </div>
-            </Scroll-Div>
+            </com-scroll-div>
         </div>
     </div>
 </template>
 
 <script>
 import Loading from '~/Loading';
-import Popper from '~/customPopper';
-import ScrollDiv from '~/ScrollDiv';
+import ComTooltip from '~/Tooltip';
+import ComScrollDiv from '~/ScrollDiv';
 
 export default {
+    name: 'ComZoom',
     props: {
         loading: {
             type: Boolean,
@@ -76,7 +65,7 @@ export default {
     directives: {
         Loading
     },
-    components: { Popper, ScrollDiv },
+    components: { ComTooltip, ComScrollDiv },
     data () {
         return {
             up: false

@@ -48,6 +48,10 @@ export default {
                 {
                     label: 'Tooltip',
                     path: '/main/tooltip'
+                },
+                {
+                    label: '放大组件Zoom',
+                    path: '/main/zoom'
                 }
             ]
         }

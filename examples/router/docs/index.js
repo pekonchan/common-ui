@@ -37,6 +37,11 @@ const routes = [
         path: 'tooltip',
         name: 'tooltip',
         component: () => import(/* webpackChunkName: 'docs' */ '@/docs/Tooltip.md')
+    },
+    {
+        path: 'zoom',
+        name: 'zoom',
+        component: () => import(/* webpackChunkName: 'docs' */ '@/docs/Zoom.md')
     }
 ];
 

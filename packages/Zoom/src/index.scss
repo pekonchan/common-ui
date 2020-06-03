@@ -3,7 +3,7 @@
     border-radius: 3px;
     background-color: #fff;
     box-shadow: 0 1px 9px 0 rgba(17, 62, 104, 0.06);
-    .com-zoom-header {
+    .com-zoom__header {
         h1 {
             display: inline-block;
             margin: 0;
@@ -23,9 +23,9 @@
         }
     }
 
-    .com-zoom-body {
+    .com-zoom__body {
         height: calc(100% - 21px);
-        .com-zoom-feature {
+        .com-zoom__feature {
             padding: 0 4%;
             line-height: 49px;
             height: 49px;
@@ -39,13 +39,13 @@
             }
         }
 
-        .com-zoom-empty {
+        .com-zoom__empty {
             margin-top: 137px;
             color: #ccc;
         }
     }
 
-    .com-zoom-empty {
+    .com-zoom__empty {
         position: relative;
         top: 40%;
         text-align: center;
@@ -61,7 +61,7 @@
         background-color: #F1F6FA;
         z-index: 99999;
 
-        .com-zoom-header {
+        .com-zoom__header {
             margin-bottom: 16px;
             h1 {
                 font-size: 16px;
@@ -71,15 +71,15 @@
             }
         }
 
-        .com-zoom-scroll {
+        .com-zoom__scroll {
             background-color: #fff;
-            .com-zoom-content {
+            .com-zoom__content {
                 padding: 16px;
             }
         }
     }
 }
 
-.zoom-box-tooltip {
+.com-zoom__tooltip {
     z-index: 99999 !important;
 }

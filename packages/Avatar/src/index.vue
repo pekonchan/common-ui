@@ -51,7 +51,6 @@ export default {
             return util.transPropString(this.size);
         },
         actualFontSize () {
-            console.log('actualFontSize -> transPropString', util);
             return util.transPropString(this.fontSize);
         }
     }

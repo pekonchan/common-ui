@@ -6,7 +6,6 @@
     export default {
         methods: {
             handleChange (value) {
-                // alert(value);
                 this.$refs.demo3.innerText = value;
             }
         }
@@ -36,7 +35,7 @@
 ```html
 <com-popper trigger="hover" :can-enter="true">
     <template v-slot:reference>悬浮显示浮窗</template>
-    这是浮窗的内容
+    <p>这是浮窗的内容</p>
 </com-popper>
 
 <com-popper trigger="click" :arrow="true">

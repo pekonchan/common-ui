@@ -32,6 +32,11 @@ const routes = [
         path: 'loading',
         name: 'loading',
         component: () => import(/* webpackChunkName: 'docs' */ '@/docs/Loading.md')
+    },
+    {
+        path: 'tooltip',
+        name: 'tooltip',
+        component: () => import(/* webpackChunkName: 'docs' */ '@/docs/Tooltip.md')
     }
 ];
 

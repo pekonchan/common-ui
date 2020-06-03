@@ -4,6 +4,7 @@ import ScrollDiv from './ScrollDiv';
 import Checkbox from './Checkbox';
 import Popper from './Popper';
 import Loading from './Loading';
+import Tooltip from './Tooltip';
 
 const components = {
     ScrollNav,
@@ -11,7 +12,8 @@ const components = {
     ScrollDiv,
     Checkbox,
     Popper,
-    Loading
+    Loading,
+    Tooltip
 }
 
 const install = (Vue) => {

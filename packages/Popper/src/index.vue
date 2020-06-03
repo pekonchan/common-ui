@@ -56,7 +56,7 @@ export default {
          * 显示popper时
          */
         show () {
-            // 点击js-com-popper__link元素，可以实现类似toggle功能，打开了再点一下就关闭了
+            // 点击com-popper__link元素，可以实现类似toggle功能，打开了再点一下就关闭了
             if (this.visible && this.trigger === 'click') {
                 this.hide();
                 return;
@@ -122,7 +122,7 @@ export default {
         });
         if (this.trigger === 'hover') {
             this.tooltip.addEventListener('mouseenter', this.hoverPopperContent);
-            this.tooltip.addEventListener('mouseout', this.hide);
+            this.tooltip.addEventListener('mouseleave', this.hide);
         }
         if (this.trigger === 'click' && this.isHiddenOut) {
             document.body.addEventListener('click', this.hidePopper);
@@ -137,7 +137,7 @@ export default {
         });
         if (this.trigger === 'hover') {
             this.tooltip.removeEventListener('mouseenter', this.hoverPopperContent);
-            this.tooltip.removeEventListener('mouseout', this.hide);
+            this.tooltip.removeEventListener('mouseleave', this.hide);
         }
         if (this.trigger === 'click' && this.isHiddenOut) {
             document.body.removeEventListener('click', this.hidePopper);

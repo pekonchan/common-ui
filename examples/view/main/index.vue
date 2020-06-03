@@ -44,6 +44,10 @@ export default {
                 {
                     label: 'Loading',
                     path: '/main/loading'
+                },
+                {
+                    label: 'Tooltip',
+                    path: '/main/tooltip'
                 }
             ]
         }

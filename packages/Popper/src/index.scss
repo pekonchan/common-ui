@@ -9,8 +9,10 @@
         padding: 16px;
         font-size: 12px;
         background: #FFFFFF;
-        border: 1px solid #D9D9D9;
-        border-radius: 2px;
+        border: 1px solid #ebeef5;
+        border-radius: 4px;
+        box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+        word-break: break-all;
         &.is-show {
             display: block;
         }
@@ -18,13 +20,13 @@
             bottom: -4px;
         }
         &[data-popper-placement^='bottom'] > .com-popper__arrow {
-            bottom: -4px;
+            top: -4px;
         }
         &[data-popper-placement^='left'] > .com-popper__arrow {
-            bottom: -4px;
+            right: -4px;
         }
         &[data-popper-placement^='right'] > .com-popper__arrow {
-            bottom: -4px;
+            left: -4px;
         }
     }
     &__arrow, &__arrow::before {

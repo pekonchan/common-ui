@@ -29,25 +29,17 @@ export default {
             type: Boolean,
             default: true
         },
-        value: {
-            type: Boolean,
-            default: false
-        },
         canEnter: { // trigger：hover时鼠标能否进入popper内容区
             type: Boolean,
-            default: true
+            default: false
         }
-    },
-    model: {
-        prop: 'value',
-        event: 'change'
     },
     data () {
         return {
             popperLink: null,
             tooltip: null,
             popperInstance: null,
-            visible: this.value,
+            visible: false,
             hideTimer: null
         };
     },
@@ -57,11 +49,6 @@ export default {
         },
         hideEvents () {
             return this.trigger === 'hover' ? ['mouseleave'] : [];
-        }
-    },
-    watch: {
-        value (newValue) {
-            newValue ? this.show() : this.hide();
         }
     },
     methods: {

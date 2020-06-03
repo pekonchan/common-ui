@@ -1,4 +1,4 @@
-.custom-select {
+.com-group-select {
     $PRIMARY-COLOR: #32A1FF;
     %text-primary {
         color: $PRIMARY-COLOR;
@@ -7,9 +7,9 @@
     user-select: none;
     color: #323232;
     text-align: left;
-    .custom-select-popper {
+    .com-group-select__popper {
         margin: -16px;
-        .custom-select-title {
+        .com-group-select__title {
             padding: 16px;
             line-height: 1;
             color: #323232;
@@ -26,16 +26,16 @@
                 float: right;
             }
         }
-        .custom-select-option {
+        .com-group-select__option {
             display: flex;
             align-items: stretch; // 为了让每个面板高度一致
             font-size: 0;
         }
-        .custom-level-ul, .checkbox-list {
+        .com-group-select__level, .checkbox-list {
             display: inline-block;
             vertical-align: top;
         }
-        .custom-level-ul {
+        .com-group-select__level {
             display: inline-block;
             padding: 8px 0;
             min-width: 160px;
@@ -59,7 +59,7 @@
                 }
             }
         }
-        .custom-select-footer {
+        .com-group-select__footer {
             padding: 16px 24px;
             border-top: 1px solid #EFF3F6;
             text-align: right;

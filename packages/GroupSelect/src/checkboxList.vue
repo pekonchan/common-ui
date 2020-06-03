@@ -1,21 +1,21 @@
 <template>
-    <ul class="checkbox-list">
+    <ul class="o-checkbox-list">
         <li v-if="showCheckedALl && hasData">
-            <span class="check-all-text" @click="hanldeSelectAll">{{isSelectedAll ? '取消全选' : '全选'}}</span>
+            <span class="o-checkbox-list__all-text" @click="hanldeSelectAll">{{isSelectedAll ? '取消全选' : '全选'}}</span>
         </li>
         <li
             v-for="item in option"
             :key="item[propNew.value]">
-            <custom-checkbox v-model="item.checked" :disabled="item[propNew.disabled]">{{item[propNew.label]}}</custom-checkbox>
+            <com-checkbox v-model="item.checked" :disabled="item[propNew.disabled]">{{item[propNew.label]}}</com-checkbox>
         </li>
-        <li v-if="!hasData" class="checkbox-list-empty">{{this.emptyText}}</li>
+        <li v-if="!hasData" class="o-checkbox-list__empty">{{this.emptyText}}</li>
     </ul>
 </template>
 
 <script>
-import customCheckbox from '../customCheckbox';
+import comCheckbox from '~/Checkbox';
 export default {
-    components: { customCheckbox },
+    components: { comCheckbox },
     props: {
         option: {
             type: Array,

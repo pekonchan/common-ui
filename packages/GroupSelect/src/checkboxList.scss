@@ -1,4 +1,4 @@
-.checkbox-list {
+.o-checkbox-list {
     padding: 16px;
     min-width: 220px;
     max-height: 318px;
@@ -11,11 +11,11 @@
             margin-top: 0;
         }
     }
-    .check-all-text {
+    .o-checkbox-list__all-text {
         color: #32A1FF;
         cursor: pointer;
     }
-    .checkbox-list-empty {
+    .o-checkbox-list__empty {
         text-align: center;
         color: #ccc;
     }

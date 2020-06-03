@@ -6,6 +6,7 @@ import Popper from './Popper';
 import Loading from './Loading';
 import Tooltip from './Tooltip';
 import Zoom from './Zoom';
+import GroupSelect from './GroupSelect';
 
 const components = {
     ScrollNav,
@@ -15,7 +16,8 @@ const components = {
     Popper,
     Loading,
     Tooltip,
-    Zoom
+    Zoom,
+    GroupSelect
 }
 
 const install = (Vue) => {

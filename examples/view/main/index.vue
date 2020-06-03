@@ -52,6 +52,10 @@ export default {
                 {
                     label: '放大组件Zoom',
                     path: '/main/zoom'
+                },
+                {
+                    label: '分组选择器',
+                    path: '/main/group-select'
                 }
             ]
         }

@@ -42,6 +42,11 @@ const routes = [
         path: 'zoom',
         name: 'zoom',
         component: () => import(/* webpackChunkName: 'docs' */ '@/docs/Zoom.md')
+    },
+    {
+        path: 'group-select',
+        name: 'groupSelect',
+        component: () => import(/* webpackChunkName: 'docs' */ '@/docs/GroupSelect.md')
     }
 ];
 

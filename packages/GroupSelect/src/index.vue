@@ -1,16 +1,16 @@
 <template>
-    <span class="custom-select">
-        <customPopper v-model="visible" trigger="click" :isHiddenOut="false" placement="bottom-end">
+    <span class="com-group-select">
+        <com-popper v-model="visible" trigger="click" :isHiddenOut="false" placement="bottom-end">
             <template v-slot:reference>
                 <slot name="reference"></slot>
             </template>
-            <div class="custom-select-popper" :style="{ width: popperWdith }">
-                <div class="custom-select-title" :class="{'is-group': isGroupSelect}">
+            <div class="com-group-select__popper" :style="{ width: popperWdith }">
+                <div class="com-group-select__title" :class="{'is-group': isGroupSelect}">
                     <span v-if="!isGroupSelect" @click="hanldeSelectAll">{{isSelectedAll ? '取消全选' : '全选'}}</span>
                     <span>已选{{count}}项</span>
                 </div>
-                <div class="custom-select-option">
-                    <ul class="custom-level-ul" v-for="(item,index) in levelOption" :key="index">
+                <div class="com-group-select__option">
+                    <ul class="com-group-select__level" v-for="(item,index) in levelOption" :key="index">
                         <li
                             v-for="subItem in item"
                             :key="subItem.value"
@@ -21,21 +21,21 @@
                     </ul>
                     <checkbox-list :option="checkboxList" :prop="propNew" :showCheckedALl="isGroupSelect"></checkbox-list>
                 </div>
-                <div class="custom-select-footer">
+                <div class="com-group-select__footer">
                     <span @click="confirm">确定</span>
                     <span @click="cancel">取消</span>
                 </div>
             </div>
-        </customPopper>
+        </com-popper>
     </span>
 </template>
 
 <script>
-import customPopper from '../customPopper';
+import comPopper from '~/Popper';
 import checkboxList from './checkboxList';
 export default {
-    name: 'ComfirmSelect',
-    components: {customPopper, checkboxList},
+    name: 'ComGroupSelect',
+    components: {comPopper, checkboxList},
     props: {
         option: {
             type: Array,

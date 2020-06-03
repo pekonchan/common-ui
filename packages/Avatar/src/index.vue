@@ -48,11 +48,11 @@ export default {
             return this.content ? this.content.substr(0, this.substr) : '';
         },
         actualSize () {
-            return util.transPropsValue(this.size);
+            return util.transPropString(this.size);
         },
         actualFontSize () {
-            console.log('actualFontSize -> transPropsValue', util);
-            return util.transPropsValue(this.fontSize);
+            console.log('actualFontSize -> transPropString', util);
+            return util.transPropString(this.fontSize);
         }
     }
 };

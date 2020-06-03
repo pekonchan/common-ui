@@ -159,50 +159,50 @@ export default {
     computed: {
         // 主要是未固定前的导航栏的高度
         navHeight () {
-            return util.transPropsValue(this.height);
+            return util.transPropString(this.height);
         },
         // 主要是未固定前的导航栏的宽度
         navWidth () {
-            return util.transPropsValue(this.width);
+            return util.transPropString(this.width);
         },
         // 导航栏固定之后的高度，如果没有设置指定高度，那么默认是用未固定前的导航栏height
         navFixedHeight () {
             const height = this.fixedHeight ? this.fixedHeight : this.height;
-            return util.transPropsValue(height);
+            return util.transPropString(height);
         },
         // 导航栏固定之后的宽度，如果没有设置指定宽度，那么默认是用未固定前的导航栏width
         navFixedWidth () {
             const width = this.fixedWidth ? this.fixedWidth : this.width;
-            return util.transPropsValue(width);
+            return util.transPropString(width);
         },
         navTop () {
-            return util.transPropsValue(this.top);
+            return util.transPropString(this.top);
         },
         navLeft () {
-            return util.transPropsValue(this.left);
+            return util.transPropString(this.left);
         },
         navBottom () {
-            return util.transPropsValue(this.bottom);
+            return util.transPropString(this.bottom);
         },
         navRight () {
-            return util.transPropsValue(this.right);
+            return util.transPropString(this.right);
         },
         // 采用sticky方式固定的，如果没设置stickyTop，默认采用top
         navStickyTop () {
             const value = this.stickyTop ? this.stickyTop : this.top;
-            return util.transPropsValue(value);
+            return util.transPropString(value);
         },
         navStickyLeft () {
             const value = this.stickyLeft ? this.stickyLeft : this.left;
-            return util.transPropsValue(value);
+            return util.transPropString(value);
         },
         navStickyRight () {
             const value = this.stickyRight ? this.stickyRight : this.right;
-            return util.transPropsValue(value);
+            return util.transPropString(value);
         },
         navStickyBottom () {
             const value = this.stickyBottom ? this.stickyBottom : this.bottom;
-            return util.transPropsValue(value);
+            return util.transPropString(value);
         },
         // 根据是否需要导航栏固定的条件下，区分生成滚动导航的偏差值，如果没设置extraScroll，默认用extraFixed
         scrollDeviation () {

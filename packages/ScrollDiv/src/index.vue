@@ -71,10 +71,10 @@ export default {
     },
     computed: {
         viewHeight () {
-            return util.transPropsValue(this.height);
+            return util.transPropString(this.height);
         },
         viewWidth () {
-            return util.transPropsValue(this.width);
+            return util.transPropString(this.width);
         },
         divStyle () {
             if (this.needCustom) {

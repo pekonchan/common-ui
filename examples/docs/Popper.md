@@ -4,6 +4,11 @@
 
 <script>
     export default {
+        data () {
+            return {
+                value1: true
+            };
+        },
         methods: {
             handleChange (value) {
                 this.$refs.demo3.innerText = value;
@@ -42,6 +47,28 @@
     <template v-slot:reference>点击显示浮窗</template>
     这是浮窗的内容
 </com-popper>
+```
+:::
+
+### 代码控制浮窗状态
+通过传递`value`值，能初始化或后续改变浮窗的显示/隐藏状态。 该值会跟trigger操作同步状态。
+::: demo
+```html
+<com-popper v-model="value1" trigger="click">
+    <template v-slot:reference>点击显示浮窗</template>
+    这是浮窗的内容
+</com-popper>
+```
+```js
+<script>
+    export default {
+        data () {
+            return {
+                value1: true
+            };
+        }
+    }
+</script>
 ```
 :::
 
@@ -118,6 +145,7 @@
 
 | 参数 | 说明 | 类型 | 可选值 | 默认值 | 是否必填 |
 | ---- | -------------- | ------ |------- | -------- | --- |
+| value | 浮窗的状态，true代表打开状态，false代表收起状态，可用v-model | Boolean | true/false | — | no |
 | placement | 浮窗的位置 | String | auto, auto-start, auto-end, top, top-start, top-end, bottom, bottom-start, bottom-end, right, right-start, right-end, left,  left-start, left-end | bottom | no |
 | arrow | 是否显示箭头 | Boolean | true/false | false | no |
 | trigger | 触发浮窗的事件 | String | hover/click | hover | no |

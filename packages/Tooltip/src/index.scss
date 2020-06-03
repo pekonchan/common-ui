@@ -11,6 +11,7 @@
         background: #333;
         border-radius: 4px;
         word-break: break-all;
+        z-index: 2000;
         &.is-show {
             display: block;
         }

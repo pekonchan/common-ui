@@ -5,17 +5,18 @@
     overflow: auto;
     font-size: 12px;
     color: #323232;
+    list-style: none;
     li {
         margin-top: 20px;
         &:first-child {
             margin-top: 0;
         }
     }
-    .o-checkbox-list__all-text {
+    &__all-text {
         color: #32A1FF;
         cursor: pointer;
     }
-    .o-checkbox-list__empty {
+    &__empty {
         text-align: center;
         color: #ccc;
     }

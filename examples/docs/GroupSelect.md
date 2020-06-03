@@ -14,8 +14,8 @@
     export default {
         data () {
             return {
-                selectedData: [],
-                option: [
+                selectedData1: [],
+                option1: [
                     {
                         label: '广东省',
                         value: 'guangdong',
@@ -40,6 +40,17 @@
                             }
                         ]
                     }
+                ],
+                selectedData2: [],
+                option2: [
+                    {
+                        label: '广东省',
+                        value: 'guangdong'
+                    },
+                    {
+                        label: '湖北省',
+                        value: 'hubei'
+                    }
                 ]
             };
         }
@@ -50,7 +61,7 @@
 ### 基础应用
 ::: demo
 ```html
-<com-group-select :option="option" v-model="selectedData">
+<com-group-select :option="option1" v-model="selectedData1">
     <span slot="reference">地域选择</span>
 </com-group-select>
 ```
@@ -59,8 +70,8 @@
     export default {
         data () {
             return {
-                selectedData: [],
-                option: [
+                selectedData1: [],
+                option1: [
                     {
                         label: '广东省',
                         value: 'guangdong',
@@ -98,7 +109,7 @@
 
 ::: demo
 ```html
-<com-group-select :option="option" v-model="selectedData">
+<com-group-select :option="option2" v-model="selectedData2">
     <span slot="reference">地域选择</span>
 </com-group-select>
 ```
@@ -107,8 +118,8 @@
     export default {
         data () {
             return {
-                selectedData: [],
-                option: [
+                selectedData2: [],
+                option2: [
                     {
                         label: '广东省',
                         value: 'guangdong'

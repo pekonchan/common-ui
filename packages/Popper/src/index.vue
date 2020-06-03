@@ -32,7 +32,15 @@ export default {
         canEnter: { // trigger：hover时鼠标能否进入popper内容区
             type: Boolean,
             default: false
+        },
+        value: {
+            type: Boolean,
+            default: false
         }
+    },
+    model: {
+        prop: 'value',
+        event: 'change'
     },
     data () {
         return {
@@ -51,6 +59,16 @@ export default {
             return this.trigger === 'hover' ? ['mouseleave'] : [];
         }
     },
+    watch: {
+        value: {
+            async handler (newValue) {
+                if (newValue === this.visible) { return; }
+                await this.$nextTick();
+                newValue ? this.show() : this.hide();
+            },
+            immediate: true
+        }
+    },
     methods: {
         /**
          * 显示popper时
@@ -61,10 +79,9 @@ export default {
                 this.hide();
                 return;
             }
-            // this.tooltip.setAttribute('data-show', '');
             this.visible = true;
-            this.$emit('change', true);
             this.create();
+            this.$emit('change', true);
         },
         /**
          * 隐藏popper时，有个延迟，为了能够在trigger：hover时，鼠标能移入popper内容区

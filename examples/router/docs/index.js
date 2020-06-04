@@ -47,6 +47,11 @@ const routes = [
         path: 'group-select',
         name: 'groupSelect',
         component: () => import(/* webpackChunkName: 'docs' */ '@/docs/GroupSelect.md')
+    },
+    {
+        path: 'icon',
+        name: 'icon',
+        component: () => import(/* webpackChunkName: 'docs' */ '@/docs/Icon.md')
     }
 ];
 

@@ -7,6 +7,7 @@ import Loading from './Loading';
 import Tooltip from './Tooltip';
 import Zoom from './Zoom';
 import GroupSelect from './GroupSelect';
+import Icon from './Icon';
 
 const components = {
     ScrollNav,
@@ -17,7 +18,8 @@ const components = {
     Loading,
     Tooltip,
     Zoom,
-    GroupSelect
+    GroupSelect,
+    Icon
 }
 
 const install = (Vue) => {

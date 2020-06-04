@@ -46,7 +46,7 @@ export default {
                     path: '/main/loading'
                 },
                 {
-                    label: 'Tooltip',
+                    label: '文本提示',
                     path: '/main/tooltip'
                 },
                 {
@@ -56,6 +56,10 @@ export default {
                 {
                     label: '分组选择器',
                     path: '/main/group-select'
+                },
+                {
+                    label: '字体图标',
+                    path: '/main/icon'
                 }
             ]
         }

@@ -1,8 +1,5 @@
 .com-zoom {
     padding: 14px 16px;
-    border-radius: 3px;
-    background-color: #fff;
-    box-shadow: 0 1px 9px 0 rgba(17, 62, 104, 0.06);
     .com-zoom__header {
         h1 {
             display: inline-block;
@@ -12,24 +9,20 @@
             color: rgba(0,0,0,0.85);
         }
 
-        .com-zoom-tooltip {
-            display: inline-block;
-
-            .icon-shuomingtishi {
+        .com-zoom__tooltip {
+            margin-left: 8px;
+            .com-icon-circle-question {
                 font-size: 12px;
                 color: #32a1ff;
                 cursor: pointer;
             }
+            .com-zoom__tooltip-popper {
+                z-index: 99999 !important;
+            }
         }
-    }
 
-    .com-zoom__body {
-        height: calc(100% - 21px);
         .com-zoom__feature {
-            padding: 0 4%;
-            line-height: 49px;
-            height: 49px;
-            background: #fff;
+            float: right;
             text-align: right;
             color: #636F79;
             & > * {
@@ -38,21 +31,21 @@
                 vertical-align: top;
             }
         }
+    }
 
-        .com-zoom__empty {
-            margin-top: 137px;
-            color: #ccc;
-        }
+    .com-zoom__body {
+        height: calc(100% - 21px);
     }
 
     .com-zoom__empty {
         position: relative;
         top: 40%;
         text-align: center;
+        color: #ccc;
     }
 
     &.is-up {
-        position: fixed;
+        position: fixed !important;
         top: 0;
         left: 0;
         padding: 22px 12px;
@@ -66,7 +59,7 @@
             h1 {
                 font-size: 16px;
             }
-            .icon-shuomingtishi {
+            .com-icon-circle-question {
                 font-size: 14px;
             }
         }
@@ -78,8 +71,4 @@
             }
         }
     }
-}
-
-.com-zoom__tooltip {
-    z-index: 99999 !important;
 }

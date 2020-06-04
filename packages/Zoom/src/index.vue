@@ -1,16 +1,16 @@
 <template>
-    <div v-loading="loading" class="com-zoom" :class="{'is-up': up}" :style="{height: up ? '100%' : boxtHeight}">
+    <div class="com-zoom" :class="{'is-up': up}" :style="{height: up ? '100%' : boxtHeight}">
         <div class="com-zoom__header">
             <h1>{{title}}</h1>
-            <com-tooltip v-if="titleTooltip.length > 0" :content="titleTooltip" popper-class="com-zoom__tooltip">
-                <i class="iconfont icon-shuomingtishi"></i>
+            <com-tooltip v-if="titleTooltip.length > 0" :content="titleTooltip" class="com-zoom__tooltip" popper-class="com-zoom__tooltip-popper">
+                <com-icon name="circle-question"></com-icon>
             </com-tooltip>
-        </div>
-        <div class="com-zoom__body">
             <div v-if="!isEmpty" class="com-zoom__feature">
                 <slot name="boxFeauter"></slot>
-                <i :class="['iconfont', up ? 'icon-suoxiaotubiao-' : 'icon-fangda1']" @click="handleUp"></i>
+                <com-icon :name="up ? 'shrink' : 'blow'" @click.native="handleUp"></com-icon>
             </div>
+        </div>
+        <div class="com-zoom__body">
             <com-scroll-div view-class="com-zoom__scroll" :height="up ? '85%' : _contentHeight">
                 <div v-if="!isEmpty" class="com-zoom__content">
                     <slot></slot>
@@ -24,17 +24,13 @@
 </template>
 
 <script>
-import Loading from '~/Loading';
 import ComTooltip from '~/Tooltip';
 import ComScrollDiv from '~/ScrollDiv';
+import ComIcon from '~/Icon';
 
 export default {
     name: 'ComZoom',
     props: {
-        loading: {
-            type: Boolean,
-            default: false
-        },
         title: {
             type: String,
             default: ''
@@ -62,10 +58,7 @@ export default {
             default: 0
         }
     },
-    directives: {
-        Loading
-    },
-    components: { ComTooltip, ComScrollDiv },
+    components: { ComTooltip, ComScrollDiv, ComIcon },
     data () {
         return {
             up: false

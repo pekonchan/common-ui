@@ -9,10 +9,16 @@
         position: fixed;
         top: 0;
         left: 0;
+        padding: 0 24px;
         width: 100%;
         height: $HEADER-HEIGHT;
+        line-height: $HEADER-HEIGHT;
         background: #fff;
         border-bottom: 1px solid #dcdfe6;
+
+        .mainView__logo {
+            vertical-align: middle;
+        }
     }
 
     .main-side {

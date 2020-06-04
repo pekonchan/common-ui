@@ -1,7 +1,7 @@
 <template>
     <div class="main-view">
         <header class="main-view-header">
-            logo
+            <img :src="logo" alt="com-ui logo" width="50px" class="mainView__logo">
         </header>
         <com-scroll-div view-class="main-side">
             <Menu :option="menus" :active="$route.path"></Menu>
@@ -16,6 +16,8 @@
 import Menu from '@/components/menu';
 import 'highlight.js/styles/color-brewer.css';
 import '@/common/css/github-markdown.css';
+import logo from '@/assets/img/logo.png';
+
 export default {
     components: { Menu },
     data () {
@@ -61,7 +63,8 @@ export default {
                     label: '字体图标',
                     path: '/main/icon'
                 }
-            ]
+            ],
+            logo: logo
         }
     },
     computed: {

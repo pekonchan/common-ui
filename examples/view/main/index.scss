@@ -1,0 +1,52 @@
+@import '@/common/css/variable.scss';
+
+.main-view {
+    position: relative;
+    padding-top: $HEADER-HEIGHT;
+    height: 100%;
+
+    .main-view-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        padding: 0 24px;
+        width: 100%;
+        height: $HEADER-HEIGHT;
+        line-height: $HEADER-HEIGHT;
+        background: #fff;
+        border-bottom: 1px solid #dcdfe6;
+
+        .mainView__logo {
+            vertical-align: middle;
+        }
+    }
+
+    .main-side {
+        position: absolute;
+        top: $HEADER-HEIGHT;
+        left: 0;
+        width: 150px;
+        height: calc(100% - #{$HEADER-HEIGHT});
+        border-right: 1px solid #dcdfe6;
+        border-image: linear-gradient(#fff , #dcdfe6 , #fff)1 10 1;
+    }
+
+    .main-body {
+        position: absolute;
+        right: 0;
+        padding: 16px;
+        width: calc(100% - 150px);
+        height: calc(100% - #{$HEADER-HEIGHT});
+        line-height: 2;
+
+        .markdown-body {
+            .header-anchor {
+                color: #2accf3;
+            }
+    
+            table td {
+                min-width: 85px;
+            }
+        }
+    }
+}

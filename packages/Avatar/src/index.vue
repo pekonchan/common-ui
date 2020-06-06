@@ -1,10 +1,10 @@
 <template>
     <span
-        class="pk-avatar"
+        class="com-avatar"
         :style="{
             'background-color': backgroundColor,
             'background-image': `url(${src})`,
-            'font-size': fontSize,
+            'font-size': actualFontSize,
             width: actualSize,
             height: actualSize,
             'line-height': actualSize
@@ -14,15 +14,16 @@
 </template>
 
 <script>
+import util from '~/util';
 export default {
-    name: 'PkAvatar',
+    name: 'ComAvatar',
     props: {
         content: { // 头像没传图片src就显示文本头像，该值为文本
             type: String,
             default: ''
         },
         fontSize: { // 文本大小
-            type: String,
+            type: [String, Number],
             default: '12px'
         },
         backgroundColor: { // 头像背景颜色
@@ -31,7 +32,7 @@ export default {
         },
         size: { // 头像大小
             type: [String, Number],
-            default: '15px'
+            default: '50px'
         },
         src: { // 头像图片地址
             type: String,
@@ -47,7 +48,10 @@ export default {
             return this.content ? this.content.substr(0, this.substr) : '';
         },
         actualSize () {
-            return typeof this.size === 'number' ? `${this.size}px` : this.size;
+            return util.transPropString(this.size);
+        },
+        actualFontSize () {
+            return util.transPropString(this.fontSize);
         }
     }
 };

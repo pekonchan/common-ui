@@ -1,8 +1,7 @@
 <template>
-    <div class="pk-scroll-nav">
-        <div class="pk-nav-bar-wrap" :style="{height: navHeight, width: navWidth}">
+    <div class="com-scroll-nav">
+        <div class="js-com-scroll-nav__wrap" :style="{height: navHeight, width: navWidth}">
            <ul
-                class="pk-nav-bar"
                 :class="{'is-fixed': navBarFixed}"
                 :style="{
                     top: navTop,
@@ -15,7 +14,8 @@
                 <li
                     v-for="(item, index) in navMenu"
                     :key="item.value"
-                    :style="{color: getNavColor(item), borderBottomColor: getNavColor(item, 'border')}"
+                    class="com-scroll-nav__li"
+                    :style="item.checked ? isActive : notActive"
                     @click="selectNav(item, index)">
                     {{item.label}}
                 </li>
@@ -26,8 +26,9 @@
 </template>
 
 <script>
+import util from '~/util';
 export default {
-    name: 'PkScrollNav',
+    name: 'ComScrollNav',
     props: {
         // 导航栏选项
         menu: {
@@ -133,88 +134,102 @@ export default {
             navBarFixed: false, // 导航栏是否被固定了
             scrollContainer: null, // 滚动条所在容器
             fixedHeightPx: 0, // 导航栏固定后的实际高度px值
-            canUseSticky: false
+            canUseSticky: false,
+            notActive: {
+                color: 'inherit',
+                borderBottomColor: 'transparent'
+            },
+            navMenu: []
         };
     },
+    watch: {
+        menu: {
+            handler (newValue) {
+                this.navMenu = newValue.map(item => {
+                    return {
+                        label: item.label,
+                        checked: item.checked || false
+                    }
+                })
+            },
+            immediate: true,
+            deep: true
+        }
+    },
     computed: {
-        // 如果用户导航栏选项未传checked，那么默认把checked置为false
-        navMenu () {
-            return this.menu.map(item => {
-                this.$set(item, 'checked', item.checked || false);
-                return item;
-            });
-        },
         // 主要是未固定前的导航栏的高度
         navHeight () {
-            return this.createValue(this.height);
+            return util.transPropString(this.height);
         },
         // 主要是未固定前的导航栏的宽度
         navWidth () {
-            return this.createValue(this.width);
+            return util.transPropString(this.width);
         },
         // 导航栏固定之后的高度，如果没有设置指定高度，那么默认是用未固定前的导航栏height
         navFixedHeight () {
             const height = this.fixedHeight ? this.fixedHeight : this.height;
-            return this.createValue(height);
+            return util.transPropString(height);
         },
         // 导航栏固定之后的宽度，如果没有设置指定宽度，那么默认是用未固定前的导航栏width
         navFixedWidth () {
             const width = this.fixedWidth ? this.fixedWidth : this.width;
-            return this.createValue(width);
+            return util.transPropString(width);
         },
         navTop () {
-            return this.createValue(this.top);
+            return util.transPropString(this.top);
         },
         navLeft () {
-            return this.createValue(this.left);
+            return util.transPropString(this.left);
         },
         navBottom () {
-            return this.createValue(this.bottom);
+            return util.transPropString(this.bottom);
         },
         navRight () {
-            return this.createValue(this.right);
+            return util.transPropString(this.right);
         },
         // 采用sticky方式固定的，如果没设置stickyTop，默认采用top
         navStickyTop () {
             const value = this.stickyTop ? this.stickyTop : this.top;
-            return this.createValue(value);
+            return util.transPropString(value);
         },
         navStickyLeft () {
             const value = this.stickyLeft ? this.stickyLeft : this.left;
-            return this.createValue(value);
+            return util.transPropString(value);
         },
         navStickyRight () {
             const value = this.stickyRight ? this.stickyRight : this.right;
-            return this.createValue(value);
+            return util.transPropString(value);
         },
         navStickyBottom () {
             const value = this.stickyBottom ? this.stickyBottom : this.bottom;
-            return this.createValue(value);
+            return util.transPropString(value);
         },
         // 根据是否需要导航栏固定的条件下，区分生成滚动导航的偏差值，如果没设置extraScroll，默认用extraFixed
         scrollDeviation () {
             const extra = this.extraScroll ? this.extraScroll : this.extraFixed
-            return this.needFixed ? this.fixedHeightPx + extra : extra;
+            return this.fixedHeightPx + extra;
         },
         // 绑定滚动事件的元素对象
         scrollTarget () {
             return this.relativeName.toLowerCase() === 'html' ? window : this.scrollContainer;
+        },
+        isActive () {
+            return {
+                color: this.color,
+                borderBottomColor: this.color
+            };
         }
     },
     methods: {
-        createValue (value) {
-            return typeof value === 'number' ? `${value}px` : value;
-        },
-        getNavColor (nav, type) {
-            return nav.checked ? this.color : type === 'border' ? 'transparent' : 'inherit';
-        },
         /**
          * 选择标题跳到对应内容
          */
-        selectNav (nav, index) {
+        async selectNav (nav, index) {
+            this.scrollContainer.scrollTop = this.offsetTops[`content${index}`] - this.scrollDeviation;
+            console.log('selectNav -> this.scrollContainer.scrollTop', this.scrollContainer.scrollTop);
+            await this.$nextTick();
             this.resetNavSelect();
             nav.checked = true;
-            this.scrollContainer.scrollTop = this.offsetTops[`content${index}`] - this.scrollDeviation;
         },
         resetNavSelect () {
             this.navMenu.forEach(item => {
@@ -263,7 +278,7 @@ export default {
          */
         calcTop (recalNav) {
             this.$nextTick(() => {
-                recalNav && (this.offsetTops.navBar = document.querySelector('.pk-scroll-nav .pk-nav-bar-wrap').offsetTop);
+                recalNav && (this.offsetTops.navBar = document.querySelector('.com-scroll-nav .js-com-scroll-nav__wrap').offsetTop);
                 this.navMenu.forEach((item, index) => {
                     this.offsetTops[`content${index}`] = this.$slots.default[index].elm.offsetTop;
                 });
@@ -306,7 +321,7 @@ export default {
         validateSticky () {
             const supportStickyValue = this.isSupportSticky();
             if (supportStickyValue) {
-                const navBarWrap = document.querySelector('.pk-scroll-nav .pk-nav-bar-wrap');
+                const navBarWrap = document.querySelector('.com-scroll-nav .js-com-scroll-nav__wrap');
                 navBarWrap.style.position = supportStickyValue;
                 navBarWrap.style.top = this.navStickyTop;
                 navBarWrap.style.left = this.navStickyLeft;

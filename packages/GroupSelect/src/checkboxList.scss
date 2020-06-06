@@ -1,0 +1,25 @@
+.o-checkbox-list {
+    padding: 16px;
+    min-width: 220px;
+    max-height: 308px;
+    font-size: 12px;
+    color: #323232;
+    & > ul {
+        padding: 0;
+        list-style: none;
+    }
+    li {
+        margin-top: 20px;
+        &:first-child {
+            margin-top: 0;
+        }
+    }
+    &__all-text {
+        color: #32A1FF;
+        cursor: pointer;
+    }
+    &__empty {
+        text-align: center;
+        color: #ccc;
+    }
+}

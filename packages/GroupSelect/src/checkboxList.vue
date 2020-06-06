@@ -1,21 +1,25 @@
 <template>
-    <ul class="o-checkbox-list">
-        <li v-if="showCheckedALl && hasData">
-            <span class="o-checkbox-list__all-text" @click="hanldeSelectAll">{{isSelectedAll ? '取消全选' : '全选'}}</span>
-        </li>
-        <li
-            v-for="item in option"
-            :key="item[propNew.value]">
-            <com-checkbox v-model="item.checked" :disabled="item[propNew.disabled]">{{item[propNew.label]}}</com-checkbox>
-        </li>
-        <li v-if="!hasData" class="o-checkbox-list__empty">{{this.emptyText}}</li>
-    </ul>
+    <com-scroll-div view-class="o-checkbox-list">
+        <ul>
+            <li v-if="showCheckedALl && hasData">
+                <span class="o-checkbox-list__all-text" @click="hanldeSelectAll">{{isSelectedAll ? '取消全选' : '全选'}}</span>
+            </li>
+            <li
+                v-for="item in option"
+                :key="item[propNew.value]">
+                <com-checkbox v-model="item.checked" :disabled="item[propNew.disabled]">{{item[propNew.label]}}</com-checkbox>
+            </li>
+            <li v-if="!hasData" class="o-checkbox-list__empty">{{this.emptyText}}</li>
+        </ul>
+    </com-scroll-div>
 </template>
 
 <script>
 import comCheckbox from '~/Checkbox';
+import comScrollDiv from '~/ScrollDiv';
+
 export default {
-    components: { comCheckbox },
+    components: { comCheckbox, comScrollDiv },
     props: {
         option: {
             type: Array,

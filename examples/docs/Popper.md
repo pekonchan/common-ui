@@ -151,6 +151,7 @@
 | trigger | 触发浮窗的事件 | String | hover/click | hover | no |
 | isHiddenOut | 是否点击空白处消失 | Boolean | true/false | true | no |
 | canEnter | trigger：hover时鼠标能否进入popper内容区 | Boolean | true/false | false | no |
+| canToggle | trigger：click，鼠标点击触发器时，能否实现开关切换效果，即打开了的popper，再点击一次触发器，是否会收起popper | Boolean | true/false | true | no |
 
 ### events
 | 参数 | 说明 | 回调参数 |

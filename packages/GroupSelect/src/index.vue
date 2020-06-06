@@ -1,6 +1,6 @@
 <template>
     <span class="com-group-select">
-        <com-popper v-model="visible" trigger="click" :isHiddenOut="false" placement="bottom-end">
+        <com-popper v-model="visible" trigger="click" :isHiddenOut="false" placement="bottom-end" :can-toggle="false" @change="hanldeVisibleChange">
             <template v-slot:reference>
                 <slot name="reference"></slot>
             </template>
@@ -10,16 +10,22 @@
                     <span>已选{{count}}项</span>
                 </div>
                 <div class="com-group-select__option">
-                    <ul class="com-group-select__level" v-for="(item,index) in levelOption" :key="index">
-                        <li
-                            v-for="subItem in item"
-                            :key="subItem.value"
-                            :class="{'is-active': subItem.active}"
-                            @click="selectGroup(subItem, item, index)">
-                            {{subItem.label}}
-                        </li>
-                    </ul>
-                    <checkbox-list :option="checkboxList" :prop="propNew" :showCheckedALl="isGroupSelect"></checkbox-list>
+                    <com-scroll-div
+                        ref="levelScrollbar"
+                        v-for="(item,index) in levelOption"
+                        :key="index"
+                        class="com-group-select__level">
+                        <ul class="level__list">
+                            <li
+                                v-for="subItem in item"
+                                :key="subItem.value"
+                                :class="{'is-active': subItem.active}"
+                                @click="selectGroup(subItem, item, index)">
+                                {{subItem.label}}
+                            </li>
+                        </ul>
+                    </com-scroll-div>
+                    <checkbox-list ref="checkboxList" :option="checkboxList" :prop="propNew" :showCheckedALl="isGroupSelect"></checkbox-list>
                 </div>
                 <div class="com-group-select__footer">
                     <span @click="confirm">确定</span>
@@ -33,9 +39,11 @@
 <script>
 import comPopper from '~/Popper';
 import checkboxList from './checkboxList';
+import comScrollDiv from '~/ScrollDiv';
+
 export default {
     name: 'ComGroupSelect',
-    components: {comPopper, checkboxList},
+    components: {comPopper, checkboxList, comScrollDiv},
     props: {
         option: {
             type: Array,
@@ -82,7 +90,7 @@ export default {
             };
         },
         popperWdith () {
-            return this.width ? typeof this.width === 'number' ? `${this.width}px` : this.width : 'unset';
+            return this.width ? typeof this.width === 'number' ? `${this.width}px` : this.width : 'auto';
         },
         isSelectedAll () {
             const enabledLen = this.checkboxList.filter(item => !item.disabled).length;
@@ -98,10 +106,8 @@ export default {
     },
     watch: {
         value: {
-            handler (newValue) {
-                this.checkboxList.forEach(item => {
-                    item.checked = newValue.includes([this.propNew.value]);
-                });
+            handler () {
+                this.initValueChecked();
             }
         },
         option: {
@@ -113,12 +119,25 @@ export default {
         }
     },
     methods: {
+        hanldeVisibleChange (value) {
+            if (value) {
+                this.scrollToTop(true);
+            }
+        },
+        async scrollToTop (levelNeed) {
+            await this.$nextTick();
+            this.$refs.checkboxList.$el.scrollTop = 0;
+            levelNeed && this.$refs.levelScrollbar && this.$refs.levelScrollbar.forEach(item => {
+                item.$el.scrollTop = 0;
+            });
+        },
         initOption () {
             // 通过复制一份原option数据，在副本上做记录每个分组的勾选情况（因为是对象数组，通过指针记录着每个对象的状态）
             // 这么做的目的是，切换分组后，还会通过这个副本option记录着每个选项的勾选情况，因此返回分组就能回显之前勾选情况
             // 这样并不会污染父级的option数据
             this.copyOption = JSON.parse(JSON.stringify(this.option));
             this.levelOption = [];
+            this.initValueChecked();
             this.createOption(this.copyOption);
         },
         createOption (option, optionIndex = 0) {
@@ -129,11 +148,6 @@ export default {
             const children = option[0].children;
             // 没有下一层分组时，生成勾选项列表
             if (!children || children.length === 0) {
-                option.forEach(item => {
-                    // 这里的item.checked为true时只有一种情况：勾选了某个分组下的选项，然后切换了，之前勾选的选项还是true的。所以返回之前的分组还是要显示之前的勾选情况。如果是false的情况，才从value中取是否已勾选的选项
-                    this.$set(item, 'checked', item.checked || this.value.includes(item[this.propNew.value]));
-                    this.$set(item, 'disabled', item[this.propNew.disabled] || false);
-                });
                 this.checkboxList = option;
             } else {
                 // 通过splice形式来添加以及切换分组后修改
@@ -149,6 +163,16 @@ export default {
                 return this.createOption(children, ++optionIndex); // 尾递归
             }
         },
+        initValueChecked (option = this.copyOption) {
+            option.forEach(item => {
+                if (!item.children || item.children.length === 0) {
+                    this.$set(item, 'checked', this.value.includes(item[this.propNew.value]));
+                    this.$set(item, 'disabled', item[this.propNew.disabled] || false);
+                } else {
+                    this.initValueChecked(item.children);
+                }
+            });
+        },
         hanldeSelectAll () {
             const isSelectedAll = this.isSelectedAll;
             this.checkboxList.forEach(item => {
@@ -162,6 +186,7 @@ export default {
             member.active = true;
             this.levelOption.splice(groupIndex + 1); // 把改分组之后的分组都删掉，需要重新生成
             this.createOption(member.children, groupIndex + 1); // 每次切换分组，该分组之后的分组都要重新获取
+            this.scrollToTop();
         },
         createResult (option = this.copyOption) {
             option.forEach(item => {
@@ -175,9 +200,9 @@ export default {
         confirm () {
             this.result = [];
             this.createResult();
-            this.$emit('change', this.result);
             this.visible = false;
             this.initOption();
+            this.$emit('change', this.result);
         },
         cancel () {
             this.visible = false;

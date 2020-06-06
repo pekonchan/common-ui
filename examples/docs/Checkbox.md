@@ -16,7 +16,7 @@
 ### 基础应用
 ::: demo
 ```html
-<com-checkbox v-model="value1"></com-checkbox>
+<com-checkbox v-model="value1">点赞</com-checkbox>
 ```
 ```js
 <script>

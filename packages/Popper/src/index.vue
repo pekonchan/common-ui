@@ -36,6 +36,10 @@ export default {
         value: {
             type: Boolean,
             default: false
+        },
+        canToggle: {
+            type: Boolean,
+            default: true
         }
     },
     model: {
@@ -71,11 +75,11 @@ export default {
     },
     methods: {
         /**
-         * 显示popper时
+         * 显示popper
          */
         show () {
             // 点击com-popper__link元素，可以实现类似toggle功能，打开了再点一下就关闭了
-            if (this.visible && this.trigger === 'click') {
+            if (this.visible && this.canToggle && this.trigger === 'click') {
                 this.hide();
                 return;
             }

@@ -52,6 +52,11 @@ const routes = [
         path: 'icon',
         name: 'icon',
         component: () => import(/* webpackChunkName: 'docs' */ '@/docs/Icon.md')
+    },
+    {
+        path: 'index-textarea',
+        name: 'indexTextarea',
+        component: () => import(/* webpackChunkName: 'docs' */ '@/docs/IndexTextarea.md')
     }
 ];
 

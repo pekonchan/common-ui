@@ -1,12 +1,12 @@
 <template>
-    <div class="index-textarea-view" :style="{height: calcHeight}">
-        <ul class="index-ul pull-left" ref="indexUl">
+    <div class="com-index-textarea" :style="{height: calcHeight}">
+        <ul class="com-index-textarea__list" ref="indexUl">
             <li v-for="index in modelCount" :key="index">{{index}}</li>
         </ul>
-        <div ref="indexTextarea" class="index-textarea-wrap">
+        <div ref="indexTextarea" class="com-index-textarea__container">
             <textarea
                 :rows="modelCount"
-                class="index-textarea"
+                class="com-index-textarea__text"
                 :style="{minHeight: calcHeight}"
                 wrap="off"
                 v-model="model"
@@ -14,12 +14,13 @@
                 @keyup="showHeight"
                 autofocus>
             </textarea>
-        </div>r
+        </div>
     </div>
 </template>
 
 <script>
     export default {
+        name: 'ComIndexTextarea',
         props: {
             value: {
                 type: String,
@@ -27,7 +28,7 @@
             },
             height: {
                 type: Number,
-                default: 300
+                default: 100
             }
         },
         data () {
@@ -76,5 +77,5 @@
 </script>
 
 <style rel="stylesheet/scss" lang="scss">
-    @import "indexTextarea";
+    @import "index";
 </style>

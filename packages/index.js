@@ -8,6 +8,7 @@ import Tooltip from './Tooltip';
 import Zoom from './Zoom';
 import GroupSelect from './GroupSelect';
 import Icon from './Icon';
+import IndexTextarea from './IndexTextarea';
 
 const components = {
     ScrollNav,
@@ -19,7 +20,8 @@ const components = {
     Tooltip,
     Zoom,
     GroupSelect,
-    Icon
+    Icon,
+    IndexTextarea
 }
 
 const install = (Vue) => {

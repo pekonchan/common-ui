@@ -62,6 +62,10 @@ export default {
                 {
                     label: '字体图标',
                     path: '/main/icon'
+                },
+                {
+                    label: '序号文本框',
+                    path: '/main/index-textarea'
                 }
             ],
             logo: logo

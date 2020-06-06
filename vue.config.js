@@ -1,6 +1,5 @@
 const path = require('path');
 const utils = require('./docsUtils.js');
-// const vueMarkdown = require('./docs.config');
 
 module.exports = {
     // pages: {

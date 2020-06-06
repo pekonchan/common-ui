@@ -1,24 +1,25 @@
 <template>
-  <div id="app">
-    <div class="top-section"></div>
-    <com-scroll-nav
-      ref="scrollNav"
-      :menu="navs"
-      :height="52"
-      :extraFixed="-24"
-      relative-name="html">
-      <div class="content">导航1内容</div>
-      <div class="content">导航2内容</div>
-      <div class="content">导航3内容</div>
-      <div class="content">导航4内容</div>
-    </com-scroll-nav>
+  <div class="demo-body-assume">
+    <div class="complex-demo-scrollnav">
+      <div class="top-section"></div>
+      <com-scroll-nav
+        ref="scrollNav"
+        :menu="navs"
+        :height="52"
+        :extraFixed="-24"
+        relative-name="html">
+        <div class="content-demo">导航1内容</div>
+        <div class="content-demo">导航2内容</div>
+        <div class="content-demo">导航3内容</div>
+        <div class="content-demo">导航4内容</div>
+      </com-scroll-nav>
+    </div>
   </div>
 </template>
 
 <script>
 
 export default {
-  name: 'App',
   data () {
     return {
       navs: [
@@ -42,12 +43,12 @@ export default {
 </script>
 
 <style lang="scss">
-  body {
+  .demo-body-assume {
     margin: 0;
     padding-top: 24px; // 故意设置，让组件传输偏差值进行计算
     background-color: #f5f6fa;
   }
-  #app {
+  .complex-demo-scrollnav {
     position: relative; // 故意把导航和导航内容的`offsetParent`变成`#app`
   }
   %block {
@@ -60,7 +61,7 @@ export default {
     height: 200px;
     @extend %block;
   }
-  .content {
+  .content-demo {
     margin-top: 16px;
     height: 600px;
     @extend %block;

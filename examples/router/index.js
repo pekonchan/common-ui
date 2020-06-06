@@ -3,7 +3,7 @@ import Router from 'vue-router';
 import Docs from './docs';
 import Main from '@/view/main';
 
-// import test from '@/demo/ScrollNav'
+import demoScrollNav from '@/demo/ScrollNav'
 
 Vue.use(Router);
 
@@ -24,10 +24,10 @@ const router = new Router({
                 ...Docs
             ]
         },
-        // {
-        //     path: '/test',
-        //     component: test
-        // },
+        {
+            path: '/demoScrollNav',
+            component: demoScrollNav
+        },
         { // 当任何都不匹配时，返回到首页
             path: '*',
             redirect: '/main'

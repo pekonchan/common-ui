@@ -207,7 +207,7 @@ export default {
         // 根据是否需要导航栏固定的条件下，区分生成滚动导航的偏差值，如果没设置extraScroll，默认用extraFixed
         scrollDeviation () {
             const extra = this.extraScroll ? this.extraScroll : this.extraFixed
-            return this.needFixed ? this.fixedHeightPx + extra : extra;
+            return this.fixedHeightPx + extra;
         },
         // 绑定滚动事件的元素对象
         scrollTarget () {
@@ -226,6 +226,7 @@ export default {
          */
         async selectNav (nav, index) {
             this.scrollContainer.scrollTop = this.offsetTops[`content${index}`] - this.scrollDeviation;
+            console.log('selectNav -> this.scrollContainer.scrollTop', this.scrollContainer.scrollTop);
             await this.$nextTick();
             this.resetNavSelect();
             nav.checked = true;

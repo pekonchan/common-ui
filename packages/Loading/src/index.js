@@ -2,7 +2,6 @@ require('./index.scss');
 
 const changeLoading = (el, binding) => {
     const width = el.clientWidth;
-    console.log('changeLoading -> width', width);
     const height = el.clientHeight;
     const mask = el.querySelector('.com-loading__mask');
     mask.style.cssText += `width: ${width}px; height: ${height}px`;

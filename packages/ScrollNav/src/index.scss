@@ -15,6 +15,9 @@
             width: 0;
             vertical-align: middle;
         }
+        & > ul {
+            margin: 0;
+        }
         .com-scroll-nav__li {
             display: inline-block;
             padding: 0 16px;

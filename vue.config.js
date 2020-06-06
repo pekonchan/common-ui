@@ -9,6 +9,8 @@ module.exports = {
     //         filename: 'index.html'
     //     }
     // },
+    publicPath: '/common-ui/',
+    outputDir: 'docs',
     chainWebpack: config => {
         config
             .entry('app')

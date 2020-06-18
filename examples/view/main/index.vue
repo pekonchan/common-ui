@@ -1,7 +1,7 @@
 <template>
     <div class="main-view">
         <header class="main-view-header">
-            <img :src="logo" alt="com-ui logo" width="50px" class="mainView__logo">
+            <img :src="logo" alt="com-ui logo" width="345px" class="mainView__logo">
         </header>
         <com-scroll-div view-class="main-side">
             <Menu :option="menus" :active="$route.path"></Menu>

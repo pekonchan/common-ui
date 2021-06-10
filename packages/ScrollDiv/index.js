@@ -1,6 +1,16 @@
-import component from './src';
-import install from '../installTemp';
+import ScrollDiv from './src';
 
-install(component);
+ScrollDiv.install = (Vue, opts) => {
+    for (const key in opts) {
+        if (Object.prototype.hasOwnProperty.call(opts, key)) {
+            ScrollDiv.props[key].default = () => opts[key]
+        }
+    }
+    Vue.component(ScrollDiv.name, ScrollDiv);
+};
 
-export default component;
+if (window && window.Vue) {
+    ScrollDiv.install(window.Vue);
+}
+
+export default ScrollDiv

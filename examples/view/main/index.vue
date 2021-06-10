@@ -3,10 +3,10 @@
         <header class="main-view-header">
             <img :src="logo" alt="com-ui logo" width="345px" class="mainView__logo">
         </header>
-        <com-scroll-div view-class="main-side">
+        <com-scroll-div width="150px" height="calc(100% - 90px)" class="main-side">
             <Menu :option="menus" :active="$route.path"></Menu>
         </com-scroll-div>
-        <com-scroll-div view-class="main-body">
+        <com-scroll-div class="main-body" width="calc(100% - 150px)" height="calc(100% - 90px)" padding="16px" awaysShowScroll>
             <router-view class="markdown-body"></router-view>
         </com-scroll-div>
     </div>

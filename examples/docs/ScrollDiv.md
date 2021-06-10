@@ -61,7 +61,7 @@
 ::: demo
 ```html
 
-<com-scroll-div height="100px" :use-native="false">
+<com-scroll-div width="400px" height="100px" :use-native="false">
     Lorem ipsum dolor, sit amet consectetur adipisicing elit. Officiis quas nobis praesentium nisi deserunt, fuga libero, error quia vero nulla corporis odio fugit atque et accusamus numquam. Tempora, qui numquam!
     Lorem ipsum dolor, sit amet consectetur adipisicing elit. Officiis quas nobis praesentium nisi deserunt, fuga libero, error quia vero nulla corporis odio fugit atque et accusamus numquam. Tempora, qui numquam!
 </com-scroll-div>
@@ -81,7 +81,7 @@ Windows上的火狐IE等这些非webkit内核的浏览器上，会采用HTML元�
 ::: demo
 ```html
 
-<com-scroll-div height="100px" :aways-show-scroll="true">
+<com-scroll-div width="400px" height="100px" :aways-show-scroll="true">
     Lorem ipsum dolor, sit amet consectetur adipisicing elit. Officiis quas nobis praesentium nisi deserunt, fuga libero, error quia vero nulla corporis odio fugit atque et accusamus numquam. Tempora, qui numquam!
     Lorem ipsum dolor, sit amet consectetur adipisicing elit. Officiis quas nobis praesentium nisi deserunt, fuga libero, error quia vero nulla corporis odio fugit atque et accusamus numquam. Tempora, qui numquam!
 </com-scroll-div>
@@ -100,6 +100,7 @@ Windows上的火狐IE等这些非webkit内核的浏览器上，会采用HTML元�
 ```html
 
 <com-scroll-div
+    width="400px"
     height="100px"
     :use-native="false"
     :bar-style="{backgroundColor: 'pink', borderRadius: '6px'}">
@@ -114,6 +115,7 @@ Windows上的火狐IE等这些非webkit内核的浏览器上，会采用HTML元�
 ```html
 
 <com-scroll-div
+    width="400px"
     height="100px"
     :use-native="false"
     :bar-style="{backgroundColor: 'rgba(255, 192, 203, .5)'}"

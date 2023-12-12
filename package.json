@@ -9,9 +9,11 @@
     "lib": "vue-cli-service build --target lib --name ComUi --dest lib packages"
   },
   "dependencies": {
+    "@babel/compat-data": "^7.23.5",
     "@popperjs/core": "^2.4.0",
     "core-js": "^3.6.4",
     "normalize.css": "^8.0.1",
+    "sass": "^1.69.4",
     "vue": "^2.6.11",
     "vue-router": "^3.1.6"
   },
@@ -27,7 +29,6 @@
     "markdown-it": "^11.0.0",
     "markdown-it-anchor": "^5.3.0",
     "markdown-it-container": "^2.0.0",
-    "node-sass": "^4.13.1",
     "sass-loader": "^8.0.2",
     "transliteration": "^2.1.11",
     "vue-loader": "^15.9.2",
